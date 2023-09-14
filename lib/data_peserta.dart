@@ -12,7 +12,62 @@ class DataPeserta extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.primary,
 
       ),
-      body: const Center(),
+      body: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                FloatingActionButton(
+                  onPressed: () {
+                    showDialog(context: context, builder: (BuildContext context) => showAddDialog());
+                  },
+                  child: const Icon(Icons.add),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  AlertDialog showAddDialog() {
+    return AlertDialog(
+      title: const Text("Tambah Data"),
+      content: Column(
+        children: [
+          Container(
+            alignment: Alignment.centerLeft,
+            child: const Text("Nama"),
+          ),
+          const TextField(
+            decoration: InputDecoration(
+              hintText: "Masukkan Nama",
+            ),
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            child: const Text("NIK"),
+          ),
+          const TextField(
+            decoration: InputDecoration(
+              hintText: "Masukkan NIK",
+            ),
+          ),
+
+        ],
+      ),
+      actions: [
+        ElevatedButton(onPressed: (
+
+            ) {}, child: const Text("Tambah")),
+
+      ],
     );
   }
 }
