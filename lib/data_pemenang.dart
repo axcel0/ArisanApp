@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class DataPemenang extends StatelessWidget {
   const DataPemenang({super.key});
 
