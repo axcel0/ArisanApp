@@ -1,18 +1,78 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DataKocok extends StatelessWidget {
+import 'blocs/peserta_bloc.dart';
+
+class DataKocok extends StatefulWidget {
   const DataKocok({super.key});
+
+  @override
+  State<DataKocok> createState() => _DataKocokState();
+}
+
+class _DataKocokState extends State<DataKocok> {
+
+  bool kocokPemenang = false;
+
+
+  Stream<String> mulaiAcak() async* {
+    await Future.delayed(Duration(seconds: 5));
+    yield "Hore Hore Hore!";
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Provider Demo'),
-        //add theme to this appbar
-        backgroundColor: Theme.of(context).colorScheme.primary,
-
+        backgroundColor: Theme
+            .of(context)
+            .colorScheme
+            .primary,
       ),
-      body: const Center(),
+      body: changeView(kocokPemenang),
     );
   }
+
+  Widget changeView(bool kocokView) {
+    switch (kocokView) {
+      case false : {
+        return Center(
+          child: ElevatedButton(
+            onPressed: () {
+              setState(() {
+                kocokPemenang = true;
+              });
+            },
+            child: Text("Mulai Kocok"),
+          ),
+        );
+      }
+      case true : {
+        return BlocBuilder<PesertaBloc, PesertaState>(
+          builder: (context, state) {
+            return StreamBuilder<String>(
+              stream: mulaiAcak(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                }
+
+                if (snapshot.hasData) {
+                  return Center(child: Text(snapshot.data.toString()));
+                }
+
+                if (snapshot.hasError) {
+                  return Center(child: Text("Error!"));
+                }
+
+                return Container();
+              }
+            );
+          },
+        );
+      }
+    }
+  }
+
 }
