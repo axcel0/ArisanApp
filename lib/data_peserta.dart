@@ -1,10 +1,9 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:tugas_akhir_training/nama_peserta.dart';
 import 'main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'blocs/peserta_bloc.dart';
+
 class DataPeserta extends StatefulWidget {
   const DataPeserta({super.key});
 
@@ -13,6 +12,7 @@ class DataPeserta extends StatefulWidget {
 }
 
 class _DataPesertaState extends State<DataPeserta> {
+  late PesertaBloc pesertaBloc;
   List<NamaPeserta> daftarNamaPeserta = [
     NamaPeserta(idPeserta: "0", namaPeserta: "a"),
     NamaPeserta(idPeserta: "1", namaPeserta: "b"),
@@ -20,13 +20,17 @@ class _DataPesertaState extends State<DataPeserta> {
     NamaPeserta(idPeserta: "3", namaPeserta: "d"),
   ];
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    pesertaBloc = BlocProvider.of<PesertaBloc>(context);
+  }
+
 
   @override
   Widget build(BuildContext context) {
-
-
-
-
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Provider Demo'),
@@ -34,36 +38,42 @@ class _DataPesertaState extends State<DataPeserta> {
         backgroundColor: Theme.of(context).colorScheme.primary,
 
       ),
-      body: ListView.builder(
-        itemCount: daftarNamaPeserta.length,
-        itemBuilder: (context, index)
-          {
-
-        return Card(
-          child: ListTile(
-            title: Text(daftarNamaPeserta[index].namaPeserta),
-            subtitle: Text(daftarNamaPeserta[index].idPeserta),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.delete)),
-              ],
-            ),
-          ),
-        );
-      }),
+      body: BlocBuilder<PesertaBloc, PesertaState>(
+        builder: (context, state) {
+          if (state is ListPesertaInitial) {
+            return ListView.builder(
+              itemCount: state.listPeserta.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: ListTile(
+                    title: Text(state.listPeserta[index].namaPeserta),
+                    subtitle: Text(state.listPeserta[index].idPeserta),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
+                        IconButton(onPressed: () {}, icon: const Icon(Icons.delete)),
+                      ],
+                    ),
+                  ),
+                );
+              }
+            );
+          }
+          return Container();
+        },
+      ),
       //add floatingActionButton
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showDialog(context: context, builder: (context) => showAddDialog(context));
+          showDialog(context: context, builder: (context) => showAddDialog());
         },
         child: const Icon(Icons.add),
       ),
     );
   }
 
-  AlertDialog showAddDialog(BuildContext context) {
+  AlertDialog showAddDialog() {
     var namaController = TextEditingController();
     var nikController = TextEditingController();
 
@@ -89,7 +99,6 @@ class _DataPesertaState extends State<DataPeserta> {
             controller: nikController,
             decoration: InputDecoration(
               hintText: "Masukkan NIK",
-
             ),
           ),
 
@@ -97,8 +106,9 @@ class _DataPesertaState extends State<DataPeserta> {
       ),
       actions: [
         ElevatedButton(onPressed: () {
-          daftarNamaPeserta.add(NamaPeserta(idPeserta: nikController.text, namaPeserta: namaController.text));
-          setState(() {});
+          //daftarNamaPeserta.add(NamaPeserta(idPeserta: nikController.text, namaPeserta: namaController.text));
+          //setState(() {});
+          pesertaBloc.add(AddNewPeserta(nikController.text, namaController.text));
           Navigator.of(context).pop();
         }, child: const Text("Tambah")),
 

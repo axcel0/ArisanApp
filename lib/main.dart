@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tugas_akhir_training/blocs/peserta_bloc.dart';
 import 'counterviewmodel.dart';
 import 'data_kocok.dart';
 import 'data_pemenang.dart';
@@ -16,15 +18,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+    return BlocProvider<PesertaBloc>(
+      create: (context) => PesertaBloc(),
+      child: MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            useMaterial3: true,
+          ),
 
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+          home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    ),
+);
   }
 }
 
