@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_training/nama_peserta.dart';
 import 'main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,12 +20,28 @@ class _DataPesertaState extends State<DataPeserta> {
     NamaPeserta(idPeserta: "2", namaPeserta: "c"),
     NamaPeserta(idPeserta: "3", namaPeserta: "d"),
   ];
-
+  String _name = "";
+  //make function to save data peserta to shared preferences
+  static String KEY_MY_STRING = "my_string";
+  Future<void> saveStringPreferences(String lastString) async {
+    final preferences = await SharedPreferences.getInstance();
+    preferences.setString(KEY_MY_STRING, lastString);
+  }
+  Future<String> getStringPreferences() async {
+    final preferences = await SharedPreferences.getInstance();
+    return preferences.getString(KEY_MY_STRING) ?? "";
+  }
+  //override initState
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    initData();
     pesertaBloc = BlocProvider.of<PesertaBloc>(context);
+
+  }
+  void initData() async {
+    _name = await getStringPreferences();
+    setState(() {});
   }
 
 
@@ -51,8 +68,14 @@ class _DataPesertaState extends State<DataPeserta> {
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        IconButton(onPressed: () {}, icon: const Icon(Icons.edit)),
-                        IconButton(onPressed: () {}, icon: const Icon(Icons.delete)),
+                        IconButton(
+                            onPressed: () {
+
+                        }, icon: const Icon(Icons.edit)),
+                        IconButton(
+                            onPressed: () {
+
+                        }, icon: const Icon(Icons.delete)),
                       ],
                     ),
                   ),
@@ -87,7 +110,7 @@ class _DataPesertaState extends State<DataPeserta> {
           ),
            TextField(
             controller: namaController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "Masukkan Nama",
             ),
           ),
@@ -97,7 +120,7 @@ class _DataPesertaState extends State<DataPeserta> {
           ),
            TextField(
             controller: nikController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "Masukkan NIK",
             ),
           ),
@@ -106,8 +129,8 @@ class _DataPesertaState extends State<DataPeserta> {
       ),
       actions: [
         ElevatedButton(onPressed: () {
-          //daftarNamaPeserta.add(NamaPeserta(idPeserta: nikController.text, namaPeserta: namaController.text));
-          //setState(() {});
+          // daftarNamaPeserta.add(NamaPeserta(idPeserta: nikController.text, namaPeserta: namaController.text));
+          // setState(() {});
           pesertaBloc.add(AddNewPeserta(nikController.text, namaController.text));
           Navigator.of(context).pop();
         }, child: const Text("Tambah")),
@@ -115,5 +138,6 @@ class _DataPesertaState extends State<DataPeserta> {
       ],
     );
   }
+
 }
 

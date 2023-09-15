@@ -9,6 +9,7 @@ class ListPesertaInitial extends PesertaState {
   late List<NamaPeserta> listPeserta;
 
   ListPesertaInitial(this.listPeserta);
+
 }
 
 class ListPemenangInitial extends PesertaState {

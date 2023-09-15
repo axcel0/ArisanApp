@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_training/blocs/peserta_bloc.dart';
-import 'counterviewmodel.dart';
 import 'data_kocok.dart';
 import 'data_pemenang.dart';
 import 'data_peserta.dart';

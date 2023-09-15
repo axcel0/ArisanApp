@@ -10,7 +10,6 @@ class AddNewPeserta extends PesertaEvent {
 }
 
 class AddNewPemenang extends PesertaEvent {
-  late String newIdPeserta;
-  late String newNamaPeserta;
-  AddNewPemenang(this.newIdPeserta, this.newNamaPeserta);
 }
+
+

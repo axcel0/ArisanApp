@@ -4,7 +4,7 @@ class NamaPeserta {
 
   NamaPeserta({
     required this.idPeserta,
-    required this.namaPeserta
+    required this.namaPeserta,
   });
 
 }

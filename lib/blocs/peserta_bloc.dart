@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -23,9 +24,18 @@ class PesertaBloc extends Bloc<PesertaEvent, PesertaState> {
   }
 
   Future<void> _addNewPemenang(AddNewPemenang event, Emitter<PesertaState> emit) async {
-    print("daftarPeserta : $daftarPeserta");
-    daftarPemenang.addAll([NamaPeserta(idPeserta: event.newIdPeserta, namaPeserta: event.newNamaPeserta)]);
+    //randomize index
+    Random random = Random();
+    int randomNumber = random.nextInt(daftarPeserta.length);
+
+    daftarPemenang.addAll([NamaPeserta(idPeserta: daftarPeserta[randomNumber].idPeserta, namaPeserta: daftarPeserta[randomNumber].namaPeserta)]);
     emit(ListPemenangInitial(daftarPemenang));
+
+    print("length : ${daftarPeserta.length}");
+    daftarPemenang.add(daftarPeserta[randomNumber]);
+    print("dlength : ${daftarPemenang.length}");
+    print("random : $randomNumber");
+    
   }
 
 }

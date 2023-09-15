@@ -13,11 +13,17 @@ class DataKocok extends StatefulWidget {
 class _DataKocokState extends State<DataKocok> {
 
   bool kocokPemenang = false;
-
+  late PesertaBloc pesertaBloc;
 
   Stream<String> mulaiAcak() async* {
     await Future.delayed(Duration(seconds: 5));
     yield "Hore Hore Hore!";
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    pesertaBloc = BlocProvider.of<PesertaBloc>(context);
   }
 
   @override
@@ -41,6 +47,8 @@ class _DataKocokState extends State<DataKocok> {
           child: ElevatedButton(
             onPressed: () {
               setState(() {
+
+                pesertaBloc.add(AddNewPemenang());
                 kocokPemenang = true;
               });
             },
