@@ -108,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
               width: 10,
             ),
             ElevatedButton(
-              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const DataPemenang()));
+              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => DataPemenang()));
               },
               child:  const Text("Data Pemenang Arisan"),
             ),
