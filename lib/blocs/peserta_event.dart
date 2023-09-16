@@ -9,7 +9,8 @@ class AddNewPeserta extends PesertaEvent {
   AddNewPeserta(this.newIdPeserta, this.newNamaPeserta);
 }
 
-class AddNewPemenang extends PesertaEvent {
-}
+class AddNewPemenang extends PesertaEvent {}
+
+class ShowPeserta extends PesertaEvent {}
 
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tugas_akhir_training/data_pemenang.dart';
 
 import 'blocs/peserta_bloc.dart';
 
@@ -15,13 +16,12 @@ class _DataKocokState extends State<DataKocok> {
   bool kocokPemenang = false;
   late PesertaBloc pesertaBloc;
 
-  Stream<String> mulaiAcak() async* {
-    await Future.delayed(Duration(seconds: 5));
-    yield "Hore Hore Hore!";
+  Stream<String> mulaiAcak(String id, String nama) async* {
+    await Future.delayed(Duration(seconds: 2));
+    yield "Selamat kepada $nama, dengan Id $id";
   }
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     pesertaBloc = BlocProvider.of<PesertaBloc>(context);
   }
@@ -47,7 +47,6 @@ class _DataKocokState extends State<DataKocok> {
           child: ElevatedButton(
             onPressed: () {
               setState(() {
-
                 pesertaBloc.add(AddNewPemenang());
                 kocokPemenang = true;
               });
@@ -59,24 +58,27 @@ class _DataKocokState extends State<DataKocok> {
       case true : {
         return BlocBuilder<PesertaBloc, PesertaState>(
           builder: (context, state) {
-            return StreamBuilder<String>(
-              stream: mulaiAcak(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                }
+            if (state is ShowPemenangInitial) {
+              return StreamBuilder<String>(
+                  stream: mulaiAcak(state.newIdPeserta, state.newNamaPeserta),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    }
 
-                if (snapshot.hasData) {
-                  return Center(child: Text(snapshot.data.toString()));
-                }
+                    if (snapshot.hasData) {
+                      return Center(child: Text(snapshot.data.toString()));
+                    }
 
-                if (snapshot.hasError) {
-                  return Center(child: Text("Error!"));
-                }
+                    if (snapshot.hasError) {
+                      return Center(child: Text("Error!"));
+                    }
 
-                return Container();
-              }
-            );
+                    return Container();
+                  }
+              );
+            }
+            return Container();
           },
         );
       }

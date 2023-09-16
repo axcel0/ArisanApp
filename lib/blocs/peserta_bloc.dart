@@ -16,6 +16,11 @@ class PesertaBloc extends Bloc<PesertaEvent, PesertaState> {
   PesertaBloc() : super(PesertaInitial()) {
     on<AddNewPeserta>(_addNewPeserta);
     on<AddNewPemenang>(_addNewPemenang);
+    on<ShowPeserta>(_showPeserta);
+  }
+
+  Future<void> _showPeserta(ShowPeserta event, Emitter<PesertaState> emit) async {
+    emit(ListPesertaInitial(daftarPeserta));
   }
 
   Future<void> _addNewPeserta(AddNewPeserta event, Emitter<PesertaState> emit) async {
@@ -24,16 +29,25 @@ class PesertaBloc extends Bloc<PesertaEvent, PesertaState> {
   }
 
   Future<void> _addNewPemenang(AddNewPemenang event, Emitter<PesertaState> emit) async {
+
     //randomize index
     Random random = Random();
     int randomNumber = random.nextInt(daftarPeserta.length);
 
     daftarPemenang.addAll([NamaPeserta(idPeserta: daftarPeserta[randomNumber].idPeserta, namaPeserta: daftarPeserta[randomNumber].namaPeserta)]);
     emit(ListPemenangInitial(daftarPemenang));
+    emit(ShowPemenangInitial(daftarPeserta[randomNumber].idPeserta, daftarPeserta[randomNumber].namaPeserta));
 
-    print("length : ${daftarPeserta.length}");
-    daftarPemenang.add(daftarPeserta[randomNumber]);
-    print("dlength : ${daftarPemenang.length}");
+    print("Daftar Peserta");
+    for (var i in daftarPeserta) {
+      print("${i.idPeserta}, ${i.namaPeserta}");
+    }
+
+    print("Daftar Pemenang");
+    for (var i in daftarPemenang) {
+      print("${i.idPeserta}, ${i.namaPeserta}");
+    }
+
     print("random : $randomNumber");
     
   }

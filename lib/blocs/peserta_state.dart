@@ -17,3 +17,9 @@ class ListPemenangInitial extends PesertaState {
 
   ListPemenangInitial(this.listPemenang);
 }
+
+class ShowPemenangInitial extends PesertaState {
+  late String newIdPeserta;
+  late String newNamaPeserta;
+  ShowPemenangInitial(this.newIdPeserta, this.newNamaPeserta);
+}

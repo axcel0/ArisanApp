@@ -37,8 +37,9 @@ class _DataPesertaState extends State<DataPeserta> {
     super.initState();
     initData();
     pesertaBloc = BlocProvider.of<PesertaBloc>(context);
-
+    pesertaBloc.add(ShowPeserta());
   }
+
   void initData() async {
     _name = await getStringPreferences();
     setState(() {});
@@ -53,7 +54,6 @@ class _DataPesertaState extends State<DataPeserta> {
         title: const Text('Provider Demo'),
         //add theme to this appbar
         backgroundColor: Theme.of(context).colorScheme.primary,
-
       ),
       body: BlocBuilder<PesertaBloc, PesertaState>(
         builder: (context, state) {
