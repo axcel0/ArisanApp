@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_training/nama_peserta.dart';
@@ -86,6 +87,7 @@ class _DataPesertaState extends State<DataPeserta> {
   AlertDialog showAddDialog() {
     var namaController = TextEditingController();
     var nikController = TextEditingController();
+    bool validate = false;
 
     return AlertDialog(
       title: const Text("Tambah Data"),
@@ -116,10 +118,34 @@ class _DataPesertaState extends State<DataPeserta> {
       ),
       actions: [
         ElevatedButton(onPressed: () {
+          //check if the textfield is empty or not
+      setState(() {
+        //if namaController is empty then set _validate true
+        namaController.text.isEmpty ? validate = true : validate = false;
+        //if nikController is empty then set _validate true
+        nikController.text.isEmpty ? validate = true : validate = false;
+        //disable the dialog if the textfield is empty
+        if (validate) {
+          Navigator.of(context).pop();
+          //notify user using cool snackbar from flushbar package if the textfield is empty
+          Flushbar(
+            backgroundColor: Colors.red,
+            icon: const Icon(
+              Icons.info_outline,
+              color: Colors.white,
+            ),
+            title: "Warning!",
+            message: "Data tidak boleh ada yang kosong",
+            duration: const Duration(seconds: 2),
+          ).show(context);
+        } else {
+          //if the textfield is not empty then add the data to the list
           pesertaBloc.add(AddNewPeserta(nikController.text, namaController.text));
           saveSharedPreferences([NamaPeserta(idPeserta: nikController.text, namaPeserta: namaController.text)]);
           Navigator.of(context).pop();
-        },
+        }
+      });
+    },
         child: const Text("Tambah")),
       ],
     );
