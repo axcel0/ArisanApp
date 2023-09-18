@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_training/data_pemenang.dart';
 
 import 'blocs/peserta_bloc.dart';
+import 'nama_peserta.dart';
 
 class DataKocok extends StatefulWidget {
   const DataKocok({super.key});
@@ -18,8 +22,10 @@ class _DataKocokState extends State<DataKocok> {
 
   Stream<String> mulaiAcak(String id, String nama) async* {
     await Future.delayed(const Duration(seconds: 2));
+    addDataPemenang(id, nama);
     yield "Selamat kepada $nama, dengan Id $id";
   }
+
   @override
   void initState() {
     super.initState();
@@ -31,10 +37,7 @@ class _DataKocokState extends State<DataKocok> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Provider Demo'),
-        backgroundColor: Theme
-            .of(context)
-            .colorScheme
-            .primary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: changeView(kocokPemenang),
     );
@@ -82,6 +85,29 @@ class _DataKocokState extends State<DataKocok> {
           },
         );
       }
+    }
+  }
+
+  addDataPemenang(String id, String nama) async {
+    var getOldPemenang = await loadSharedPreferences();
+    saveSharedPreferences(getOldPemenang, id, nama);
+  }
+
+  Future<List<NamaPeserta>> loadSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonList = prefs.getStringList("PemenangList") ?? [];
+    return jsonList.map((e) => NamaPeserta.fromJson(jsonDecode(e))).toList();
+  }
+
+  Future<void> saveSharedPreferences(List<NamaPeserta> listPemenang, String newId, String newName) async {
+    listPemenang.add(NamaPeserta(idPeserta: newId, namaPeserta: newName));
+    List<Map<String, dynamic>> jsonList = listPemenang.map((obj) => obj.toJson()).toList();
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setStringList("PemenangList", jsonList.map((e) => jsonEncode(e)).toList());
+
+    print("List Pemenang");
+    for (var i in listPemenang) {
+      print("${i.idPeserta}, ${i.namaPeserta}");
     }
   }
 
