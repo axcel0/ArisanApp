@@ -13,7 +13,6 @@ class PesertaBloc extends Bloc<PesertaEvent, PesertaState> {
   List<NamaPeserta> daftarPeserta = [];
   List<NamaPeserta> daftarPemenang = [];
 
-
   PesertaBloc() : super(PesertaInitial()) {
     on<AddNewPeserta>(_addNewPeserta);
     on<AddNewPemenang>(_addNewPemenang);

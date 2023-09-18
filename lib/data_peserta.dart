@@ -24,6 +24,7 @@ class _DataPesertaState extends State<DataPeserta> {
     super.initState();
     print("Page : initState");
     pesertaBloc = BlocProvider.of<PesertaBloc>(context);
+    pesertaBloc.add(DeleteAllPeserta());
     loadData();
   }
 
@@ -149,11 +150,6 @@ class _DataPesertaState extends State<DataPeserta> {
     return jsonList.map((e) => NamaPeserta.fromJson(jsonDecode(e))).toList();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    pesertaBloc.add(DeleteAllPeserta());
-  }
 
 }
 
