@@ -52,7 +52,7 @@ class _DataPemenangState extends State<DataPemenang> {
       ),
       body: BlocBuilder<PesertaBloc, PesertaState>(
         builder: (context, state) {
-          if (state is ListPemenangInitial) {
+          if (state is ListPemenangInitial && state.listPemenang.isNotEmpty) {
             return ListView.builder(
               itemCount: state.listPemenang.length,
               itemBuilder:(context, index) {
@@ -63,6 +63,10 @@ class _DataPemenangState extends State<DataPemenang> {
                   )
                 );
               }
+            );
+          }else{
+            return const Center(
+              child: Text("Belum ada pemenang"),
             );
           }
           return Container();
