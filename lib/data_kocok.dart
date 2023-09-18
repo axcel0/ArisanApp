@@ -17,7 +17,7 @@ class _DataKocokState extends State<DataKocok> {
   late PesertaBloc pesertaBloc;
 
   Stream<String> mulaiAcak(String id, String nama) async* {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     yield "Selamat kepada $nama, dengan Id $id";
   }
   @override
@@ -51,7 +51,7 @@ class _DataKocokState extends State<DataKocok> {
                 kocokPemenang = true;
               });
             },
-            child: Text("Mulai Kocok"),
+            child: const Text("Mulai Kocok"),
           ),
         );
       }
@@ -63,7 +63,7 @@ class _DataKocokState extends State<DataKocok> {
                   stream: mulaiAcak(state.newIdPeserta, state.newNamaPeserta),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }
 
                     if (snapshot.hasData) {
@@ -71,7 +71,7 @@ class _DataKocokState extends State<DataKocok> {
                     }
 
                     if (snapshot.hasError) {
-                      return Center(child: Text("Error!"));
+                      return const Center(child: Text("Error!"));
                     }
 
                     return Container();
