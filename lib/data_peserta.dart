@@ -37,7 +37,7 @@ class _DataPesertaState extends State<DataPeserta> {
       ),
       body: BlocBuilder<PesertaBloc, PesertaState>(
         builder: (context, state) {
-          if (state is ListPesertaInitial) {
+          if (state is ListPesertaInitial && state.listPeserta.isNotEmpty) {
             saveSharedPreferences(state.listPeserta);
             return ListView.builder(
               itemCount: state.listPeserta.length,
@@ -63,8 +63,11 @@ class _DataPesertaState extends State<DataPeserta> {
                 );
               }
             );
+          }else {
+            return const Center(
+              child: Text("Data Kosong"),
+            );
           }
-          return Container();
         },
       ),
       //add floatingActionButton
