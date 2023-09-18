@@ -13,4 +13,6 @@ class AddNewPemenang extends PesertaEvent {}
 
 class ShowPeserta extends PesertaEvent {}
 
+class ShowPemenang extends PesertaEvent {}
+
 
