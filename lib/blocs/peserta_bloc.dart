@@ -16,6 +16,8 @@ class PesertaBloc extends Bloc<PesertaEvent, PesertaState> {
   PesertaBloc() : super(PesertaInitial()) {
     on<AddNewPeserta>(_addNewPeserta);
     on<AddNewPemenang>(_addNewPemenang);
+    on<LoadPeserta>(_loadPeserta);
+    on<DeleteAllPeserta>(_deleteAllPeserta);
     on<ShowPeserta>(_showPeserta);
     on<ShowPemenang>(_showPemenang);
   }
@@ -30,6 +32,15 @@ class PesertaBloc extends Bloc<PesertaEvent, PesertaState> {
 
   Future<void> _addNewPeserta(AddNewPeserta event, Emitter<PesertaState> emit) async {
     daftarPeserta.addAll([NamaPeserta(idPeserta: event.newIdPeserta, namaPeserta: event.newNamaPeserta)]);
+    emit(ListPesertaInitial(daftarPeserta));
+  }
+
+  Future<void> _loadPeserta(LoadPeserta event, Emitter<PesertaState> emit) async {
+    daftarPeserta.add(NamaPeserta(idPeserta: event.newIdPeserta, namaPeserta: event.newNamaPeserta));
+  }
+
+  Future<void> _deleteAllPeserta(DeleteAllPeserta event, Emitter<PesertaState> emit) async {
+    daftarPeserta.clear();
     emit(ListPesertaInitial(daftarPeserta));
   }
 

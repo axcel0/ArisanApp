@@ -11,8 +11,17 @@ class AddNewPeserta extends PesertaEvent {
 
 class AddNewPemenang extends PesertaEvent {}
 
+class LoadPeserta extends PesertaEvent {
+  late String newIdPeserta;
+  late String newNamaPeserta;
+  LoadPeserta(this.newIdPeserta, this.newNamaPeserta);
+}
+
+class DeleteAllPeserta extends PesertaEvent {}
+
 class ShowPeserta extends PesertaEvent {}
 
 class ShowPemenang extends PesertaEvent {}
+
 
 

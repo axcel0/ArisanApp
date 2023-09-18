@@ -22,13 +22,14 @@ class _DataPesertaState extends State<DataPeserta> {
   @override
   void initState(){
     super.initState();
+    print("Page : initState");
     pesertaBloc = BlocProvider.of<PesertaBloc>(context);
     loadData();
   }
 
   @override
   Widget build(BuildContext context) {
-    
+    print("Page : build");
     return Scaffold(
       appBar: AppBar(
         title: const Text('Provider Demo'),
@@ -38,7 +39,8 @@ class _DataPesertaState extends State<DataPeserta> {
       body: BlocBuilder<PesertaBloc, PesertaState>(
         builder: (context, state) {
           if (state is ListPesertaInitial) {
-            saveSharedPreferences(state.listPeserta);
+            print("if state");
+            print("state.listPeserta.length : ${state.listPeserta.length}");
             return ListView.builder(
               itemCount: state.listPeserta.length,
               itemBuilder: (context, index) {
@@ -111,17 +113,31 @@ class _DataPesertaState extends State<DataPeserta> {
       actions: [
         ElevatedButton(onPressed: () {
           pesertaBloc.add(AddNewPeserta(nikController.text, namaController.text));
+          saveSharedPreferences([NamaPeserta(idPeserta: nikController.text, namaPeserta: namaController.text)]);
           Navigator.of(context).pop();
-        }, child: const Text("Tambah")),
-
+        },
+        child: const Text("Tambah")),
       ],
     );
   }
   
   Future<void> saveSharedPreferences(List<NamaPeserta> listPeserta) async {
-    List<Map<String, dynamic>> jsonList = listPeserta.map((obj) => obj.toJson()).toList();
+    print("Page : saveSP");
+    pesertaList.addAll(listPeserta);
+    List<Map<String, dynamic>> jsonList = pesertaList.map((obj) => obj.toJson()).toList();
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList("PesertaList", jsonList.map((e) => jsonEncode(e)).toList());
+  }
+
+  void loadData() async {
+    print("Page : loadData");
+    pesertaList = await loadSharedPreferences();
+    pesertaList.forEach((element) {
+      pesertaBloc.add(LoadPeserta(element.idPeserta, element.namaPeserta));
+    });
+
+    print(pesertaList.length);
+    pesertaBloc.add(ShowPeserta());
   }
 
   Future<List<NamaPeserta>> loadSharedPreferences() async {
@@ -130,15 +146,11 @@ class _DataPesertaState extends State<DataPeserta> {
     return jsonList.map((e) => NamaPeserta.fromJson(jsonDecode(e))).toList();
   }
 
-  void loadData() async {
-
-    if (pesertaList.isEmpty) {
-      pesertaList = await loadSharedPreferences();
-      pesertaList.forEach((element) {
-        pesertaBloc.add(AddNewPeserta(element.idPeserta, element.namaPeserta));
-      });
-    }
-    pesertaBloc.add(ShowPeserta());
+  @override
+  void dispose() {
+    super.dispose();
+    print("Page : dispose");
+    pesertaBloc.add(DeleteAllPeserta());
   }
 
 }
