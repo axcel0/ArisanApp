@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_training/nama_peserta.dart';
@@ -13,38 +15,16 @@ class DataPeserta extends StatefulWidget {
 }
 
 class _DataPesertaState extends State<DataPeserta> {
+
   late PesertaBloc pesertaBloc;
-  List<NamaPeserta> daftarNamaPeserta = [
-    NamaPeserta(idPeserta: "0", namaPeserta: "a"),
-    NamaPeserta(idPeserta: "1", namaPeserta: "b"),
-    NamaPeserta(idPeserta: "2", namaPeserta: "c"),
-    NamaPeserta(idPeserta: "3", namaPeserta: "d"),
-  ];
-  String _name = "";
-  //make function to save data peserta to shared preferences
-  static String KEY_MY_STRING = "my_string";
-  Future<void> saveStringPreferences(String lastString) async {
-    final preferences = await SharedPreferences.getInstance();
-    preferences.setString(KEY_MY_STRING, lastString);
-  }
-  Future<String> getStringPreferences() async {
-    final preferences = await SharedPreferences.getInstance();
-    return preferences.getString(KEY_MY_STRING) ?? "";
-  }
-  //override initState
+  List<NamaPeserta> pesertaList = [];
+
   @override
-  void initState() {
+  void initState(){
     super.initState();
-    initData();
     pesertaBloc = BlocProvider.of<PesertaBloc>(context);
-    pesertaBloc.add(ShowPeserta());
+    loadData();
   }
-
-  void initData() async {
-    _name = await getStringPreferences();
-    setState(() {});
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +37,8 @@ class _DataPesertaState extends State<DataPeserta> {
       ),
       body: BlocBuilder<PesertaBloc, PesertaState>(
         builder: (context, state) {
-          if (state is ListPesertaInitial && state.listPeserta.isNotEmpty) {
+          if (state is ListPesertaInitial) {
+            saveSharedPreferences(state.listPeserta);
             return ListView.builder(
               itemCount: state.listPeserta.length,
               itemBuilder: (context, index) {
@@ -81,10 +62,6 @@ class _DataPesertaState extends State<DataPeserta> {
                   ),
                 );
               }
-            );
-          }else {
-            return const Center(
-              child: Text("Belum ada peserta, silahkan tambah peserta"),
             );
           }
           return Container();
@@ -133,14 +110,35 @@ class _DataPesertaState extends State<DataPeserta> {
       ),
       actions: [
         ElevatedButton(onPressed: () {
-          // daftarNamaPeserta.add(NamaPeserta(idPeserta: nikController.text, namaPeserta: namaController.text));
-          // setState(() {});
           pesertaBloc.add(AddNewPeserta(nikController.text, namaController.text));
           Navigator.of(context).pop();
         }, child: const Text("Tambah")),
 
       ],
     );
+  }
+  
+  Future<void> saveSharedPreferences(List<NamaPeserta> listPeserta) async {
+    List<Map<String, dynamic>> jsonList = listPeserta.map((obj) => obj.toJson()).toList();
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setStringList("PesertaList", jsonList.map((e) => jsonEncode(e)).toList());
+  }
+
+  Future<List<NamaPeserta>> loadSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonList = prefs.getStringList("PesertaList") ?? [];
+    return jsonList.map((e) => NamaPeserta.fromJson(jsonDecode(e))).toList();
+  }
+
+  void loadData() async {
+
+    if (pesertaList.isEmpty) {
+      pesertaList = await loadSharedPreferences();
+      pesertaList.forEach((element) {
+        pesertaBloc.add(AddNewPeserta(element.idPeserta, element.namaPeserta));
+      });
+    }
+    pesertaBloc.add(ShowPeserta());
   }
 
 }
