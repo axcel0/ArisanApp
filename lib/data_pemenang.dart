@@ -66,7 +66,7 @@ class _DataPemenangState extends State<DataPemenang> {
             );
           }else{
             return const Center(
-              child: Text("Belum ada pemenang"),
+              child: Text("Belum ada pemenang, silahkan kocok terlebih dahulu"),
             );
           }
           return Container();

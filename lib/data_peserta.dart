@@ -38,7 +38,7 @@ class _DataPesertaState extends State<DataPeserta> {
       ),
       body: BlocBuilder<PesertaBloc, PesertaState>(
         builder: (context, state) {
-          if (state is ListPesertaInitial) {
+          if (state is ListPesertaInitial && state.listPeserta.isNotEmpty) {
             print("if state");
             print("state.listPeserta.length : ${state.listPeserta.length}");
             return ListView.builder(
@@ -65,8 +65,11 @@ class _DataPesertaState extends State<DataPeserta> {
                 );
               }
             );
+          }else{
+            return const Center(
+              child: Text("Data Peserta masih kosong"),
+            );
           }
-          return Container();
         },
       ),
       //add floatingActionButton
@@ -132,9 +135,9 @@ class _DataPesertaState extends State<DataPeserta> {
   void loadData() async {
     print("Page : loadData");
     pesertaList = await loadSharedPreferences();
-    pesertaList.forEach((element) {
+    for (var element in pesertaList) {
       pesertaBloc.add(LoadPeserta(element.idPeserta, element.namaPeserta));
-    });
+    }
 
     print(pesertaList.length);
     pesertaBloc.add(ShowPeserta());
@@ -149,7 +152,6 @@ class _DataPesertaState extends State<DataPeserta> {
   @override
   void dispose() {
     super.dispose();
-    print("Page : dispose");
     pesertaBloc.add(DeleteAllPeserta());
   }
 

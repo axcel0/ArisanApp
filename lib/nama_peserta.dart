@@ -6,16 +6,19 @@ class NamaPeserta {
     required this.idPeserta,
     required this.namaPeserta,
   });
-
+  //convert to json format
   Map<String, dynamic> toJson() {
     return {
       'idPeserta': idPeserta,
       'namaPeserta': namaPeserta,
     };
   }
-
-  factory NamaPeserta.fromJson(Map<String, dynamic> json) {
-    return NamaPeserta(idPeserta: json['idPeserta'], namaPeserta: json['namaPeserta']);
+  //convert from json format
+  factory NamaPeserta.fromJson(Map<String, dynamic> map) {
+    return NamaPeserta(
+      idPeserta: map['idPeserta'],
+      namaPeserta: map['namaPeserta'],
+    );
   }
 
 }
