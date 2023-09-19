@@ -19,13 +19,9 @@ class MyApp extends StatelessWidget {
     return BlocProvider<PesertaBloc>(
       create: (context) => PesertaBloc(),
       child: MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-          ),
-
-          home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        title: 'Flutter Demo',
+        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        debugShowCheckedModeBanner: false,
     ),
 );
   }
@@ -44,19 +40,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   String _name = "";
-  //
-  // void _incrementCounter() {
-  //   setState(() {
-  //     // This call to setState tells the Flutter framework that something has
-  //     // changed in this State, which causes it to rerun the build method below
-  //     // so that the display can reflect the updated values. If we changed
-  //     // _counter without calling setState(), then the build method would not be
-  //     // called again, and so nothing would appear to happen.
-  //     _counter++;
-  //   }
-  //   );
-  // }
-  //make function to save data peserta to shared preferences
+
   static String KEY_MY_STRING = "my_string";
   Future<void> saveStringPreferences(String lastString) async {
     final preferences = await SharedPreferences.getInstance();
@@ -83,12 +67,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
@@ -96,27 +74,66 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const DataPeserta()));
-              },
-              child: const Text("Data Peserta"),
+            SizedBox(
+              width: 150,
+              height: 180,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const DataPeserta()));
+                },
+                child: const Wrap(
+                  alignment: WrapAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Icon(Icons.people_alt_rounded, size: 75,),
+                    ),
+                    Text("Data Peserta", style: TextStyle(fontSize: 15), textAlign: TextAlign.center,),
+                  ],
+                ),
+              ),
             ),
             const SizedBox(
               width: 10,
             ),
-            ElevatedButton(
-              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => DataPemenang()));
-              },
-              child:  const Text("Data Pemenang Arisan"),
+            SizedBox(
+              width: 150,
+              height: 180,
+              child: ElevatedButton(
+                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => DataPemenang()));
+                },
+                child: const Wrap(
+                  alignment: WrapAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Icon(Icons.workspace_premium_rounded, size: 75,),
+                    ),
+                    Text("Data Pemenang Arisan", style: TextStyle(fontSize: 15), textAlign: TextAlign.center,),
+                  ],
+                ),
+              ),
             ),
             const SizedBox(
               width: 10,
             ),
-            ElevatedButton(
-              onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const DataKocok()));
-              },
-              child:  const Text("Kocok"),
+            SizedBox(
+              width: 150,
+              height: 180,
+              child: ElevatedButton(
+                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const DataKocok()));
+                },
+                child: const Wrap(
+                  alignment: WrapAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Icon(Icons.shuffle_rounded, size: 75,),
+                    ),
+                    Text("Kocok", style: TextStyle(fontSize: 15), textAlign: TextAlign.center,),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
