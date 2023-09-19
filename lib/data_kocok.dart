@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,10 +23,21 @@ class _DataKocokState extends State<DataKocok> {
   List<NamaPeserta> listdataPeserta = [];
   List<NamaPeserta> listdataPemenang = [];
 
+  /*
   Stream<String> mulaiAcak(String id, String nama) async* {
     await Future.delayed(const Duration(seconds: 2));
     addDataPemenang(id, nama);
     yield "Selamat kepada $nama, dengan Id $id";
+  }
+   */
+
+  Stream<String> mulaiAcak(String id, String nama) async* {
+    await Future.delayed(const Duration(seconds: 2));
+    addDataPemenang(id, nama);
+
+    final outputPemenang = "$id, $nama";
+
+    yield outputPemenang;
   }
 
   @override
@@ -51,6 +63,7 @@ class _DataKocokState extends State<DataKocok> {
   Widget changeView(bool kocokView) {
     switch (kocokView) {
       case false : {
+
         return Center(
           child: ElevatedButton(
             onPressed: () {
@@ -60,13 +73,44 @@ class _DataKocokState extends State<DataKocok> {
                   kocokPemenang = true;
                 } else {
                   kocokPemenang = false;
+                  Flushbar(
+                    backgroundColor: Colors.red,
+                    icon: const Icon(
+                      Icons.info_outline,
+                      color: Colors.white,
+                    ),
+                    title: "Warning!",
+                    message: "Semua peserta sudah dapat!",
+                    duration: const Duration(seconds: 2),
+                  ).show(context);
                 }
-                
               });
             },
             child: const Text("Mulai Kocok"),
           ),
         );
+
+        /*
+        if (listdataPemenang.length < listdataPeserta.length) {
+          return Center(
+            child: ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  pesertaBloc.add(AddNewPemenang());
+                  kocokPemenang = true;
+                });
+              },
+              child: const Text("Mulai Kocok")
+            ),
+          );
+        }
+        else {
+          return Center(
+            child : Text("Semua peserta sudah dapat!")
+          );
+        }
+         */
+
       }
       case true : {
         return BlocBuilder<PesertaBloc, PesertaState>(
@@ -79,6 +123,7 @@ class _DataKocokState extends State<DataKocok> {
                       return const Center(child: CircularProgressIndicator());
                     }
 
+                    /*
                     if (snapshot.hasData) {
                       return Center(
                         child: Row(
@@ -94,6 +139,67 @@ class _DataKocokState extends State<DataKocok> {
                             )
                           ],
                         )
+                        //child: Text(snapshot.data.toString())
+                      );
+                    }
+                     */
+
+                    if (snapshot.hasData) {
+                      final output = snapshot.data?.split(", ");
+                      return Center(
+                          child: SizedBox(
+                            height: 125,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Flexible(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 20),
+                                    child: Text(
+                                      "Selamat kepada", style: TextStyle(fontSize: 35), textAlign: TextAlign.right,
+                                    ),
+                                  ),
+                                ),
+                                Flexible(
+                                  flex: 1,
+                                  child: Stack(
+                                    alignment: Alignment.centerLeft,
+                                    children: [
+                                      Container(
+                                        color: Colors.blue,
+                                      ),
+                                      Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                output![0],
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 40,
+                                                ),
+                                                textAlign: TextAlign.right,
+                                              ),
+                                              Text(
+                                                output[1],
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 25,
+                                                ),
+                                                textAlign: TextAlign.left,
+                                              ),
+                                            ],
+                                          )
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
                         //child: Text(snapshot.data.toString())
                       );
                     }
