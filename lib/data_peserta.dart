@@ -159,7 +159,7 @@ class _DataPesertaState extends State<DataPeserta> {
           ).show(context);
         } else {
           //if data already exist, notify user using snackbar from flushbar
-          if(pesertaList.any((element) => element.namaPeserta == namaController.text) && pesertaList.any((element) => element.idPeserta == nikController.text)){
+          if(pesertaList.any((element) => element.idPeserta == nikController.text)){
             Navigator.of(context).pop();
             Flushbar(
               backgroundColor: Colors.red,
@@ -168,7 +168,7 @@ class _DataPesertaState extends State<DataPeserta> {
                 color: Colors.white,
               ),
               title: "Warning!",
-              message: "Data sudah ada",
+              message: "NIK sudah ada",
               duration: const Duration(seconds: 2),
             ).show(context);
           }else{
