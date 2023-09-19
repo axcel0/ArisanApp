@@ -166,7 +166,7 @@ class _DataPesertaState extends State<DataPeserta> {
               ).show(context);
             } else {
               //if data already exist, notify user using snackbar from flushbar
-              if(pesertaList.any((element) => element.idPeserta == nikController.text)){
+              if(pesertaList.any((element) => element.idPeserta == nikController.text && element.idPeserta != oldId)){
                 Navigator.of(context).pop();
                 Flushbar(
                   backgroundColor: Colors.red,
