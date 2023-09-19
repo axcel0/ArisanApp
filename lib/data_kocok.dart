@@ -20,6 +20,7 @@ class _DataKocokState extends State<DataKocok> {
   bool kocokPemenang = false;
   late PesertaBloc pesertaBloc;
   List<NamaPeserta> listdataPeserta = [];
+  List<NamaPeserta> listdataPemenang = [];
 
   Stream<String> mulaiAcak(String id, String nama) async* {
     await Future.delayed(const Duration(seconds: 2));
@@ -31,6 +32,9 @@ class _DataKocokState extends State<DataKocok> {
   void initState() {
     super.initState();
     pesertaBloc = BlocProvider.of<PesertaBloc>(context);
+    pesertaBloc.add(DeleteAllPemenang());
+    pesertaBloc.add(DeleteAllPeserta());
+    loadData();
   }
 
   @override
@@ -51,8 +55,13 @@ class _DataKocokState extends State<DataKocok> {
           child: ElevatedButton(
             onPressed: () {
               setState(() {
-                pesertaBloc.add(AddNewPemenang());
-                kocokPemenang = true;
+                if (listdataPemenang.length < listdataPeserta.length) {
+                  pesertaBloc.add(AddNewPemenang());
+                  kocokPemenang = true;
+                } else {
+                  kocokPemenang = false;
+                }
+                
               });
             },
             child: const Text("Mulai Kocok"),
@@ -74,7 +83,7 @@ class _DataKocokState extends State<DataKocok> {
                       return Center(
                         child: Row(
                           children: [
-                            Text("Selamat kepada", style: TextStyle(fontSize: 35),),
+                            Text(snapshot.data.toString(), style: TextStyle(fontSize: 35),),
                             Stack(
                               children: [
                                 Container(
@@ -109,15 +118,30 @@ class _DataKocokState extends State<DataKocok> {
     saveSharedPreferences(getOldPemenang, id, nama);
   }
 
-  Future<List<NamaPeserta>> loadPesertaSharedPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-    final jsonList = prefs.getStringList("PesertaList") ?? [];
-    return jsonList.map((e) => NamaPeserta.fromJson(jsonDecode(e))).toList();
+  void loadData() async {
+    listdataPemenang = await loadSharedPreferences();
+    listdataPeserta = await loadPesertaSharedPreferences();
+    for (var element in listdataPemenang) {
+      pesertaBloc.add(LoadPemenang(element.idPeserta, element.namaPeserta));
+    }
+
+    for (var element in listdataPeserta) {
+      pesertaBloc.add(LoadPeserta(element.idPeserta, element.namaPeserta));
+    }
+
+    pesertaBloc.add(ShowPemenang());
+    pesertaBloc.add(ShowPeserta());
   }
 
   Future<List<NamaPeserta>> loadSharedPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     final jsonList = prefs.getStringList("PemenangList") ?? [];
+    return jsonList.map((e) => NamaPeserta.fromJson(jsonDecode(e))).toList();
+  }
+
+  Future<List<NamaPeserta>> loadPesertaSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonList = prefs.getStringList("PesertaList") ?? [];
     return jsonList.map((e) => NamaPeserta.fromJson(jsonDecode(e))).toList();
   }
 

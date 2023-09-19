@@ -13,7 +13,6 @@ part 'peserta_state.dart';
 class PesertaBloc extends Bloc<PesertaEvent, PesertaState> {
   List<NamaPeserta> daftarPeserta = [];
   List<NamaPeserta> daftarPemenang = [];
-  List<NamaPeserta> daftarKocok = [];
 
   PesertaBloc() : super(PesertaInitial()) {
     on<AddNewPeserta>(_addNewPeserta);
@@ -61,6 +60,12 @@ class PesertaBloc extends Bloc<PesertaEvent, PesertaState> {
 
   Future<void> _addNewPemenang(AddNewPemenang event, Emitter<PesertaState> emit) async {
 
+    // Filtering daftar peserta
+    for (var j in daftarPemenang) {
+      daftarPeserta.removeWhere(((element) => element.idPeserta == j.idPeserta));
+    }
+
+    //randomize index
     Random random = Random();
     int randomNumber = random.nextInt(daftarPeserta.length);
 
