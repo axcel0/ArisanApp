@@ -19,6 +19,7 @@ class _DataKocokState extends State<DataKocok> {
 
   bool kocokPemenang = false;
   late PesertaBloc pesertaBloc;
+  List<NamaPeserta> listdataPeserta = [];
 
   Stream<String> mulaiAcak(String id, String nama) async* {
     await Future.delayed(const Duration(seconds: 2));
@@ -36,8 +37,8 @@ class _DataKocokState extends State<DataKocok> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Provider Demo'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        title: const Text('Kocok Peserta'),
+        //backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: changeView(kocokPemenang),
     );
@@ -70,7 +71,22 @@ class _DataKocokState extends State<DataKocok> {
                     }
 
                     if (snapshot.hasData) {
-                      return Center(child: Text(snapshot.data.toString()));
+                      return Center(
+                        child: Row(
+                          children: [
+                            Text("Selamat kepada", style: TextStyle(fontSize: 35),),
+                            Stack(
+                              children: [
+                                Container(
+                                  color: Colors.green,
+
+                                )
+                              ],
+                            )
+                          ],
+                        )
+                        //child: Text(snapshot.data.toString())
+                      );
                     }
 
                     if (snapshot.hasError) {
@@ -93,6 +109,12 @@ class _DataKocokState extends State<DataKocok> {
     saveSharedPreferences(getOldPemenang, id, nama);
   }
 
+  Future<List<NamaPeserta>> loadPesertaSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonList = prefs.getStringList("PesertaList") ?? [];
+    return jsonList.map((e) => NamaPeserta.fromJson(jsonDecode(e))).toList();
+  }
+
   Future<List<NamaPeserta>> loadSharedPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     final jsonList = prefs.getStringList("PemenangList") ?? [];
@@ -109,6 +131,11 @@ class _DataKocokState extends State<DataKocok> {
     for (var i in listPemenang) {
       print("${i.idPeserta}, ${i.namaPeserta}");
     }
+  }
+
+  loadDataPeserta() async {
+    listdataPeserta = await loadPesertaSharedPreferences();
+    print("listdataPeserta : ${listdataPeserta.length}");
   }
 
 }

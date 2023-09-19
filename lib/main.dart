@@ -28,13 +28,12 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.white12,
             cardColor: Colors.blueGrey.shade50,
             errorColor: Colors.red,
-            primaryColorDark: Colors.blueGrey,
           ),
 
           useMaterial3: true,
         ),
-        title: 'Flutter Demo',
-        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        title: 'Arisan Software',
+        home: const MyHomePage(title: 'Arisan Software'),
         debugShowCheckedModeBanner: false,
     ),
 );
@@ -81,10 +80,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        //use theme color
-        backgroundColor: Theme.of(context).colorScheme.primary,
-
         title: Text(widget.title),
+        foregroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: Center(
         child: Row(

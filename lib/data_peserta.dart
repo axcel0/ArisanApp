@@ -34,8 +34,8 @@ class _DataPesertaState extends State<DataPeserta> {
     print("Page : build");
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Provider Demo'),
-        //add theme to this appbar
+        title: const Text('Data Peserta',),
+        foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: BlocBuilder<PesertaBloc, PesertaState>(
@@ -68,7 +68,7 @@ class _DataPesertaState extends State<DataPeserta> {
                                     setState(() {
                                       pesertaBloc.add(DeletePeserta(state.listPeserta[index].idPeserta));
                                       pesertaList.removeWhere((element) => element.idPeserta == state.listPeserta[index].idPeserta);
-                                      saveSharedPreferences(pesertaList);
+                                      updateSharedPreferences(pesertaList);
                                       Navigator.of(context).pop();
                                       Flushbar(
                                         backgroundColor: Colors.green,
@@ -198,6 +198,14 @@ class _DataPesertaState extends State<DataPeserta> {
   Future<void> saveSharedPreferences(List<NamaPeserta> listPeserta) async {
     print("Page : saveSP");
     pesertaList.addAll(listPeserta);
+    List<Map<String, dynamic>> jsonList = pesertaList.map((obj) => obj.toJson()).toList();
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setStringList("PesertaList", jsonList.map((e) => jsonEncode(e)).toList());
+  }
+
+  Future<void> updateSharedPreferences(List<NamaPeserta> listPeserta) async {
+    print("Page : updateSP");
+    pesertaList = listPeserta;
     List<Map<String, dynamic>> jsonList = pesertaList.map((obj) => obj.toJson()).toList();
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList("PesertaList", jsonList.map((e) => jsonEncode(e)).toList());

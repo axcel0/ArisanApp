@@ -67,26 +67,13 @@ class PesertaBloc extends Bloc<PesertaEvent, PesertaState> {
     daftarPemenang.addAll([NamaPeserta(idPeserta: daftarPeserta[randomNumber].idPeserta, namaPeserta: daftarPeserta[randomNumber].namaPeserta)]);
     emit(ListPemenangInitial(daftarPemenang));
     emit(ShowPemenangInitial(daftarPeserta[randomNumber].idPeserta, daftarPeserta[randomNumber].namaPeserta));
-
-    // print("Daftar Peserta");
-    // for (var i in daftarPeserta) {
-    //   print("${i.idPeserta}, ${i.namaPeserta}");
-    // }
-    //
-    // print("Daftar Pemenang");
-    // for (var i in daftarPemenang) {
-    //   print("${i.idPeserta}, ${i.namaPeserta}");
-    // }
-    //
-    // print("random : $randomNumber");
-    
   }
+
   Future<void> _deletePeserta(DeletePeserta event, Emitter<PesertaState> emit) async {
-    //delete peserta by index id
     daftarPeserta.removeWhere((element) => element.idPeserta == event.idPeserta);
     emit(ListPesertaInitial(daftarPeserta));
   }
-//make fucntion to edit peserta
+
   Future<void> _editPeserta(EditPeserta event, Emitter<PesertaState> emit) async {
     daftarPeserta[daftarPeserta.indexWhere((element) => element.idPeserta == event.idPeserta)].namaPeserta = event.namaPeserta;
     emit(ListPesertaInitial(daftarPeserta));
