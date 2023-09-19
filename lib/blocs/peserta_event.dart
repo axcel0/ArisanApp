@@ -29,10 +29,18 @@ class DeletePeserta extends PesertaEvent {
   DeletePeserta(this.idPeserta);
 }
 
+class DeletePemenang extends PesertaEvent {
+  late String idPeserta;
+  DeletePemenang(this.idPeserta);
+}
+
 class EditPeserta extends PesertaEvent {
   late String idPeserta;
   late String namaPeserta;
-  EditPeserta(this.idPeserta, this.namaPeserta);
+  late String oldIdPeserta;
+  late String oldNamaPeserta;
+
+  EditPeserta(this.idPeserta, this.namaPeserta, this.oldIdPeserta, this.oldNamaPeserta);
 }
 
 class DeleteAllPemenang extends PesertaEvent {}

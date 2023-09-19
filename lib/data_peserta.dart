@@ -54,9 +54,10 @@ class _DataPesertaState extends State<DataPeserta> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                            onPressed: () {
-
-                        }, icon: const Icon(Icons.edit)),
+                          onPressed: () {
+                            showDialog(context: context, builder: (context) => showEditDialog(state.listPeserta[index].idPeserta, state.listPeserta[index].namaPeserta));
+                          },
+                          icon: const Icon(Icons.edit)),
                         IconButton(
                             onPressed: () {
                               //add dialog to confirm delete
@@ -108,6 +109,102 @@ class _DataPesertaState extends State<DataPeserta> {
         },
         child: const Icon(Icons.add),
       ),
+    );
+  }
+
+  AlertDialog showEditDialog(String editId, String editNama) {
+    var namaController = TextEditingController();
+    var nikController = TextEditingController();
+
+    var oldId = editId;
+    var oldNama = editNama;
+
+    nikController.text = editId;
+    namaController.text = editNama;
+
+    return AlertDialog(
+      title: const Text("Tambah Data"),
+      content: Column(
+        children: [
+          Container(
+            alignment: Alignment.centerLeft,
+            child: const Text("Nama"),
+          ),
+          TextField(
+            controller: namaController,
+            decoration: const InputDecoration(
+              hintText: "Masukkan Nama",
+            ),
+          ),
+          Container(
+            alignment: Alignment.centerLeft,
+            child: const Text("NIK"),
+          ),
+          TextField(
+            controller: nikController,
+            decoration: const InputDecoration(
+              hintText: "Masukkan NIK",
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        ElevatedButton(onPressed: () {
+          //check if the textfield is empty or not
+          setState(() {
+            if (namaController.text.isEmpty || nikController.text.isEmpty) {
+              Navigator.of(context).pop();
+              Flushbar(
+                backgroundColor: Colors.red,
+                icon: const Icon(
+                  Icons.info_outline,
+                  color: Colors.white,
+                ),
+                title: "Warning!",
+                message: "Data tidak boleh ada yang kosong",
+                duration: const Duration(seconds: 2),
+              ).show(context);
+            } else {
+              //if data already exist, notify user using snackbar from flushbar
+              if(pesertaList.any((element) => element.idPeserta == nikController.text)){
+                Navigator.of(context).pop();
+                Flushbar(
+                  backgroundColor: Colors.red,
+                  icon: const Icon(
+                    Icons.info_outline,
+                    color: Colors.white,
+                  ),
+                  title: "Warning!",
+                  message: "NIK sudah ada",
+                  duration: const Duration(seconds: 2),
+                ).show(context);
+              }else{
+
+                pesertaBloc.add(EditPeserta(nikController.text, namaController.text, oldId, oldNama));
+
+                var tempList = pesertaList.firstWhere((element) => element.idPeserta == oldId && element.namaPeserta == oldNama);
+                tempList.idPeserta = nikController.text;
+                tempList.namaPeserta = namaController.text;
+
+                updateSharedPreferences(pesertaList);
+
+                Navigator.of(context).pop();
+                Flushbar(
+                  backgroundColor: Colors.green,
+                  icon: const Icon(
+                    Icons.info_outline,
+                    color: Colors.white,
+                  ),
+                  title: "Success!",
+                  message: "Data berhasil ditambahkan",
+                  duration: const Duration(seconds: 2),
+                ).show(context);
+              }
+            }
+          });
+        },
+            child: const Text("Save")),
+      ],
     );
   }
 
