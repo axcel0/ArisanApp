@@ -59,7 +59,34 @@ class _DataPesertaState extends State<DataPeserta> {
                         }, icon: const Icon(Icons.edit)),
                         IconButton(
                             onPressed: () {
-
+                              //add dialog to confirm delete
+                              showDialog(context: context, builder: (context) => AlertDialog(
+                                title: const Text("Konfirmasi"),
+                                content: const Text("Apakah anda yakin ingin menghapus data ini?"),
+                                actions: [
+                                  ElevatedButton(onPressed: () {
+                                    setState(() {
+                                      pesertaBloc.add(DeletePeserta(state.listPeserta[index].idPeserta));
+                                      pesertaList.removeWhere((element) => element.idPeserta == state.listPeserta[index].idPeserta);
+                                      saveSharedPreferences(pesertaList);
+                                      Navigator.of(context).pop();
+                                      Flushbar(
+                                        backgroundColor: Colors.green,
+                                        icon: const Icon(
+                                          Icons.info_outline,
+                                          color: Colors.white,
+                                        ),
+                                        title: "Success!",
+                                        message: "Data berhasil dihapus",
+                                        duration: const Duration(seconds: 2),
+                                      ).show(context);
+                                    });
+                                  }, child: const Text("Ya")),
+                                  ElevatedButton(onPressed: () {
+                                    Navigator.of(context).pop();
+                                  }, child: const Text("Tidak")),
+                                ],
+                              ));
                         }, icon: const Icon(Icons.delete)),
                       ],
                     ),
@@ -163,7 +190,7 @@ class _DataPesertaState extends State<DataPeserta> {
         }
       });
     },
-        child: const Text("Tambah")),
+        child: const Text("Save")),
       ],
     );
   }

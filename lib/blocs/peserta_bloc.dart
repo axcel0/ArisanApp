@@ -21,6 +21,8 @@ class PesertaBloc extends Bloc<PesertaEvent, PesertaState> {
     on<LoadPeserta>(_loadPeserta);
     on<LoadPemenang>(_loadPemenang);
     on<DeleteAllPeserta>(_deleteAllPeserta);
+    on<DeletePeserta>(_deletePeserta);
+    on<EditPeserta>(_editPeserta);
     on<DeleteAllPemenang>(_deleteAllPemenang);
     on<ShowPeserta>(_showPeserta);
     on<ShowPemenang>(_showPemenang);
@@ -59,11 +61,6 @@ class PesertaBloc extends Bloc<PesertaEvent, PesertaState> {
 
   Future<void> _addNewPemenang(AddNewPemenang event, Emitter<PesertaState> emit) async {
 
-    // print("daftarPemenang ${daftarPemenang}");
-    // print("daftarPeserta ${daftarPeserta.toList()}");
-    // daftarKocok = daftarPemenang.removeWhere((element) => daftarPemenang.contains(element));
-    // daftarPemenang.
-    //randomize index
     Random random = Random();
     int randomNumber = random.nextInt(daftarPeserta.length);
 
@@ -71,18 +68,27 @@ class PesertaBloc extends Bloc<PesertaEvent, PesertaState> {
     emit(ListPemenangInitial(daftarPemenang));
     emit(ShowPemenangInitial(daftarPeserta[randomNumber].idPeserta, daftarPeserta[randomNumber].namaPeserta));
 
-    print("Daftar Peserta");
-    for (var i in daftarPeserta) {
-      print("${i.idPeserta}, ${i.namaPeserta}");
-    }
-
-    print("Daftar Pemenang");
-    for (var i in daftarPemenang) {
-      print("${i.idPeserta}, ${i.namaPeserta}");
-    }
-
-    print("random : $randomNumber");
+    // print("Daftar Peserta");
+    // for (var i in daftarPeserta) {
+    //   print("${i.idPeserta}, ${i.namaPeserta}");
+    // }
+    //
+    // print("Daftar Pemenang");
+    // for (var i in daftarPemenang) {
+    //   print("${i.idPeserta}, ${i.namaPeserta}");
+    // }
+    //
+    // print("random : $randomNumber");
     
   }
-
+  Future<void> _deletePeserta(DeletePeserta event, Emitter<PesertaState> emit) async {
+    //delete peserta by index id
+    daftarPeserta.removeWhere((element) => element.idPeserta == event.idPeserta);
+    emit(ListPesertaInitial(daftarPeserta));
+  }
+//make fucntion to edit peserta
+  Future<void> _editPeserta(EditPeserta event, Emitter<PesertaState> emit) async {
+    daftarPeserta[daftarPeserta.indexWhere((element) => element.idPeserta == event.idPeserta)].namaPeserta = event.namaPeserta;
+    emit(ListPesertaInitial(daftarPeserta));
+  }
 }

@@ -1,6 +1,5 @@
 part of 'peserta_bloc.dart';
 
-@immutable
 abstract class PesertaState {}
 
 class PesertaInitial extends PesertaState {}

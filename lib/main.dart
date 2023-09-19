@@ -19,6 +19,20 @@ class MyApp extends StatelessWidget {
     return BlocProvider<PesertaBloc>(
       create: (context) => PesertaBloc(),
       child: MaterialApp(
+        //use material theme
+        theme: ThemeData(
+          //use color scheme of material theme
+          colorScheme: ColorScheme.fromSwatch(
+            primarySwatch: Colors.blue,
+            backgroundColor: Colors.white38,
+            accentColor: Colors.white12,
+            cardColor: Colors.blueGrey.shade50,
+            errorColor: Colors.red,
+            primaryColorDark: Colors.blueGrey,
+          ),
+
+          useMaterial3: true,
+        ),
         title: 'Flutter Demo',
         home: const MyHomePage(title: 'Flutter Demo Home Page'),
         debugShowCheckedModeBanner: false,
@@ -67,6 +81,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
+        //use theme color
+        backgroundColor: Theme.of(context).colorScheme.primary,
+
         title: Text(widget.title),
       ),
       body: Center(
@@ -78,6 +95,12 @@ class _MyHomePageState extends State<MyHomePage> {
               width: 150,
               height: 180,
               child: ElevatedButton(
+                //change radius of button
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const DataPeserta()));
                 },
@@ -100,6 +123,11 @@ class _MyHomePageState extends State<MyHomePage> {
               width: 150,
               height: 180,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
                 onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => DataPemenang()));
                 },
                 child: const Wrap(
@@ -121,6 +149,11 @@ class _MyHomePageState extends State<MyHomePage> {
               width: 150,
               height: 180,
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
                 onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const DataKocok()));
                 },
                 child: const Wrap(

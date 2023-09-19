@@ -1,6 +1,5 @@
 part of 'peserta_bloc.dart';
 
-@immutable
 abstract class PesertaEvent {}
 
 class AddNewPeserta extends PesertaEvent {
@@ -24,6 +23,17 @@ class LoadPemenang extends PesertaEvent {
 }
 
 class DeleteAllPeserta extends PesertaEvent {}
+
+class DeletePeserta extends PesertaEvent {
+  late String idPeserta;
+  DeletePeserta(this.idPeserta);
+}
+
+class EditPeserta extends PesertaEvent {
+  late String idPeserta;
+  late String namaPeserta;
+  EditPeserta(this.idPeserta, this.namaPeserta);
+}
 
 class DeleteAllPemenang extends PesertaEvent {}
 
