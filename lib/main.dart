@@ -27,16 +27,52 @@ class MyApp extends StatelessWidget {
           ),
           //use color scheme of material theme
           colorScheme: ColorScheme.fromSwatch(
+            brightness: Brightness.light,
             primarySwatch: Colors.blue,
             backgroundColor: Colors.white38,
             accentColor: Colors.white12,
             cardColor: Colors.blueGrey.shade50,
             errorColor: Colors.red,
-            brightness: Brightness.light,
           ),
-
+          primaryTextTheme: const TextTheme(
+            titleLarge: TextStyle(color: Colors.black),
+            bodyMedium: TextStyle(color: Colors.black),
+            bodyLarge: TextStyle(color: Colors.black),
+            titleMedium: TextStyle(color: Colors.blue),
+            titleSmall: TextStyle(color: Colors.black),
+            bodySmall: TextStyle(color: Colors.black),
+            labelLarge: TextStyle(color: Colors.black),
+            labelSmall: TextStyle(color: Colors.black),
+          ),
           useMaterial3: true,
         ),
+        darkTheme: ThemeData(
+          //use google font as theme
+          textTheme: GoogleFonts.robotoTextTheme(
+            Theme.of(context).textTheme,
+          ),
+          //use color scheme of material theme
+          colorScheme: ColorScheme.fromSwatch(
+            brightness: Brightness.dark,
+            primarySwatch: Colors.indigo,
+            backgroundColor: Colors.black87,
+            accentColor: Colors.white12,
+            cardColor: Colors.white10,
+            errorColor: Colors.red,
+          ),
+          primaryTextTheme: const TextTheme(
+            titleLarge: TextStyle(color: Colors.white),
+            bodyMedium: TextStyle(color: Colors.white),
+            bodyLarge: TextStyle(color: Colors.white),
+            titleMedium: TextStyle(color: Colors.white),
+            titleSmall: TextStyle(color: Colors.white),
+            bodySmall: TextStyle(color: Colors.white),
+            labelLarge: TextStyle(color: Colors.white),
+            labelSmall: TextStyle(color: Colors.white),
+          ),
+          useMaterial3: true,
+        ),
+        themeMode: ThemeMode.system,
         title: 'Arisan Software',
         home: const MyHomePage(title: 'Arisan Software'),
         debugShowCheckedModeBanner: false,
@@ -47,8 +83,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
-
   final String title;
 
   @override
@@ -56,29 +90,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  String _name = "";
-
-  static String KEY_MY_STRING = "my_string";
-  Future<void> saveStringPreferences(String lastString) async {
-    final preferences = await SharedPreferences.getInstance();
-    preferences.setString(KEY_MY_STRING, lastString);
-  }
-  Future<String> getStringPreferences() async {
-    final preferences = await SharedPreferences.getInstance();
-    return preferences.getString(KEY_MY_STRING) ?? "";
-  }
-  //override initState
-  @override
-  void initState() {
-    super.initState();
-    initData();
-  }
-  void initData() async {
-    _name = await getStringPreferences();
-    setState(() {});
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -107,14 +118,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const DataPeserta()));
                 },
-                child: const Wrap(
+                child: Wrap(
                   alignment: WrapAlignment.center,
                   children: [
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.all(8),
                       child: Icon(Icons.people_alt_rounded, size: 75, color: Colors.blueAccent,),
-                    ),
-                    Text("Data Peserta", style: TextStyle(fontSize: 15, ), textAlign: TextAlign.center,),
+                    ),//add text with primary color same as foreground color
+                    Text("Data Peserta",
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Theme.of(context).primaryTextTheme.titleMedium!.color,
+                    ), textAlign: TextAlign.center,),
                   ],
                 ),
               ),
@@ -133,14 +148,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => DataPemenang()));
                 },
-                child: const Wrap(
+                child: Wrap(
                   alignment: WrapAlignment.center,
                   children: [
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.all(8),
                       child: Icon(Icons.workspace_premium_rounded, size: 75, color: Colors.amber,),
                     ),
-                    Text("Data Pemenang", style: TextStyle(fontSize: 15), textAlign: TextAlign.center,),
+                    Text("Data Pemenang",
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Theme.of(context).primaryTextTheme.titleMedium!.color,
+                    ), textAlign: TextAlign.center,),
                   ],
                 ),
               ),
@@ -159,14 +178,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) =>  DataKocok()));
                 },
-                child: const Wrap(
+                child: Wrap(
                   alignment: WrapAlignment.center,
                   children: [
-                    Padding(
+                    const Padding(
                       padding: EdgeInsets.all(8),
                       child: Icon(Icons.shuffle_rounded, size: 75, color: Colors.teal,),
                     ),
-                    Text("Kocok", style: TextStyle(fontSize: 15), textAlign: TextAlign.center,),
+                    Text("Kocok",
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Theme.of(context).primaryTextTheme.titleMedium!.color,
+                    ), textAlign: TextAlign.center,),
                   ],
                 ),
               ),

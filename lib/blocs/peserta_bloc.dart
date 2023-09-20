@@ -83,7 +83,7 @@ class PesertaBloc extends Bloc<PesertaEvent, PesertaState> {
 
   Future<void> _deletePemenang(DeletePemenang event, Emitter<PesertaState> emit) async {
     daftarPemenang.removeWhere((element) => element.idPeserta == event.idPeserta);
-    emit(ListPesertaInitial(daftarPeserta));
+    emit(ListPemenangInitial(daftarPemenang));
   }
 
   Future<void> _editPeserta(EditPeserta event, Emitter<PesertaState> emit) async {
