@@ -5,6 +5,7 @@ import 'package:tugas_akhir_training/blocs/peserta_bloc.dart';
 import 'data_kocok.dart';
 import 'data_pemenang.dart';
 import 'data_peserta.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,8 +20,11 @@ class MyApp extends StatelessWidget {
     return BlocProvider<PesertaBloc>(
       create: (context) => PesertaBloc(),
       child: MaterialApp(
-        //use material theme
         theme: ThemeData(
+          //use google font as theme
+          textTheme: GoogleFonts.robotoTextTheme(
+            Theme.of(context).textTheme,
+          ),
           //use color scheme of material theme
           colorScheme: ColorScheme.fromSwatch(
             primarySwatch: Colors.blue,
@@ -28,6 +32,7 @@ class MyApp extends StatelessWidget {
             accentColor: Colors.white12,
             cardColor: Colors.blueGrey.shade50,
             errorColor: Colors.red,
+            brightness: Brightness.light,
           ),
 
           useMaterial3: true,
@@ -107,9 +112,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Padding(
                       padding: EdgeInsets.all(8),
-                      child: Icon(Icons.people_alt_rounded, size: 75,),
+                      child: Icon(Icons.people_alt_rounded, size: 75, color: Colors.orange,),
                     ),
-                    Text("Data Peserta", style: TextStyle(fontSize: 15), textAlign: TextAlign.center,),
+                    Text("Data Peserta", style: TextStyle(fontSize: 15, ), textAlign: TextAlign.center,),
                   ],
                 ),
               ),
@@ -133,9 +138,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Padding(
                       padding: EdgeInsets.all(8),
-                      child: Icon(Icons.workspace_premium_rounded, size: 75,),
+                      child: Icon(Icons.workspace_premium_rounded, size: 75, color: Colors.yellow,),
                     ),
-                    Text("Data Pemenang Arisan", style: TextStyle(fontSize: 15), textAlign: TextAlign.center,),
+                    Text("Data Pemenang", style: TextStyle(fontSize: 15), textAlign: TextAlign.center,),
                   ],
                 ),
               ),
@@ -159,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Padding(
                       padding: EdgeInsets.all(8),
-                      child: Icon(Icons.shuffle_rounded, size: 75,),
+                      child: Icon(Icons.shuffle_rounded, size: 75, color: Colors.deepPurple,),
                     ),
                     Text("Kocok", style: TextStyle(fontSize: 15), textAlign: TextAlign.center,),
                   ],

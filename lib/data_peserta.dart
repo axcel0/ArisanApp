@@ -64,10 +64,12 @@ class _DataPesertaState extends State<DataPeserta> {
                             onPressed: () {
                               //add dialog to confirm delete
                               showDialog(context: context, builder: (context) => AlertDialog(
-                                title: const Text("Konfirmasi"),
-                                content: const Text("Apakah anda yakin ingin menghapus data ini?"),
+                                backgroundColor: Colors.white.withOpacity(0.8),
+                                title: const Text("Konfirmasi", textAlign: TextAlign.center,),
+                                content: const Text("Apakah anda yakin ingin menghapus data ini?", textAlign: TextAlign.center,),
                                 actions: [
                                   ElevatedButton(onPressed: () {
+                                    Colors.white.withOpacity(0.8);
                                     setState(() {
                                       pesertaBloc.add(DeletePeserta(state.listPeserta[index].idPeserta));
                                       pesertaList.removeWhere((element) => element.idPeserta == state.listPeserta[index].idPeserta);
@@ -84,10 +86,11 @@ class _DataPesertaState extends State<DataPeserta> {
                                         duration: const Duration(seconds: 2),
                                       ).show(context);
                                     });
-                                  }, child: const Text("Ya")),
+                                  }, child: const Text("Ya", style: TextStyle(color: Colors.red))),
                                   ElevatedButton(onPressed: () {
+                                    Colors.white.withOpacity(0.8);
                                     Navigator.of(context).pop();
-                                  }, child: const Text("Tidak")),
+                                  }, child: const Text("Tidak", style: TextStyle(color: Colors.blueAccent))),
                                 ],
                               ));
                         }, icon: const Icon(Icons.delete)),
@@ -125,30 +128,42 @@ class _DataPesertaState extends State<DataPeserta> {
     namaController.text = editNama;
 
     return AlertDialog(
-      title: const Text("Tambah Data"),
-      content: Column(
-        children: [
-          Container(
-            alignment: Alignment.centerLeft,
-            child: const Text("Nama"),
-          ),
-          TextField(
-            controller: namaController,
-            decoration: const InputDecoration(
-              hintText: "Masukkan Nama",
+      backgroundColor: Colors.white.withOpacity(0.8),
+      title: const SizedBox(
+        height: 25,
+        child: Text("Edit Data", textAlign: TextAlign.center,),
+      ),
+      content: SizedBox(
+        height: 200,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              //change font family of text
+              child: const Text("Nama"),
             ),
-          ),
-          Container(
-            alignment: Alignment.centerLeft,
-            child: const Text("NIK"),
-          ),
-          TextField(
-            controller: nikController,
-            decoration: const InputDecoration(
-              hintText: "Masukkan NIK",
+            TextField(
+              controller: namaController,
+              decoration: const InputDecoration(
+                hintText: "Masukkan Nama",
+              ),
             ),
-          ),
-        ],
+            const SizedBox(
+              height: 15,
+            ),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: const Text("NIK"),
+            ),
+            TextField(
+              controller: nikController,
+              decoration: const InputDecoration(
+                hintText: "Masukkan NIK",
+              ),
+            ),
+          ],
+        ),
       ),
       actions: [
         ElevatedButton(onPressed: () {
@@ -180,7 +195,21 @@ class _DataPesertaState extends State<DataPeserta> {
                   message: "NIK sudah ada",
                   duration: const Duration(seconds: 2),
                 ).show(context);
-              }else{
+              }//NIK must be numeric
+              else if(nikController.text.contains(RegExp(r'[a-zA-Z]'))){
+                Navigator.of(context).pop();
+                Flushbar(
+                  backgroundColor: Colors.red,
+                  icon: const Icon(
+                    Icons.info_outline,
+                    color: Colors.white,
+                  ),
+                  title: "Warning!",
+                  message: "NIK harus berupa angka",
+                  duration: const Duration(seconds: 2),
+                ).show(context);
+              }
+              else{
 
                 pesertaBloc.add(EditPeserta(nikController.text, namaController.text, oldId, oldNama));
                 pesertaBloc.add(EditPemenang(nikController.text, namaController.text, oldId, oldNama));
@@ -207,7 +236,7 @@ class _DataPesertaState extends State<DataPeserta> {
                     color: Colors.white,
                   ),
                   title: "Success!",
-                  message: "Data berhasil ditambahkan",
+                  message: "Data berhasil diubah",
                   duration: const Duration(seconds: 2),
                 ).show(context);
               }
@@ -224,30 +253,41 @@ class _DataPesertaState extends State<DataPeserta> {
     var nikController = TextEditingController();
 
     return AlertDialog(
-      title: const Text("Tambah Data"),
-      content: Column(
-        children: [
-          Container(
-            alignment: Alignment.centerLeft,
-            child: const Text("Nama"),
-          ),
-           TextField(
-            controller: namaController,
-            decoration: const InputDecoration(
-              hintText: "Masukkan Nama",
+      backgroundColor: Colors.white,
+      title: const SizedBox(
+        height: 25,
+        child: Text("Tambah Data", textAlign: TextAlign.center,),
+      ),
+      content: SizedBox(
+        height: 200,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              child: const Text("Nama"),
             ),
-          ),
-          Container(
-            alignment: Alignment.centerLeft,
-            child: const Text("NIK"),
-          ),
-           TextField(
-            controller: nikController,
-            decoration: const InputDecoration(
-              hintText: "Masukkan NIK",
+             TextField(
+              controller: namaController,
+              decoration: const InputDecoration(
+                hintText: "Masukkan Nama",
+              ),
             ),
-          ),
-        ],
+            const SizedBox(
+              height: 15,
+            ),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: const Text("NIK"),
+            ),
+             TextField(
+              controller: nikController,
+              decoration: const InputDecoration(
+                hintText: "Masukkan NIK",
+              ),
+            ),
+          ],
+        ),
       ),
       actions: [
         ElevatedButton(onPressed: () {
@@ -265,7 +305,8 @@ class _DataPesertaState extends State<DataPeserta> {
             message: "Data tidak boleh ada yang kosong",
             duration: const Duration(seconds: 2),
           ).show(context);
-        } else {
+        }
+        else {
           //if data already exist, notify user using snackbar from flushbar
           if(pesertaList.any((element) => element.idPeserta == nikController.text)){
             Navigator.of(context).pop();
@@ -279,7 +320,22 @@ class _DataPesertaState extends State<DataPeserta> {
               message: "NIK sudah ada",
               duration: const Duration(seconds: 2),
             ).show(context);
-          }else{
+          }
+          //NIK must be numeric
+          else if(nikController.text.contains(RegExp(r'[a-zA-Z]'))){
+            Navigator.of(context).pop();
+            Flushbar(
+              backgroundColor: Colors.red,
+              icon: const Icon(
+                Icons.info_outline,
+                color: Colors.white,
+              ),
+              title: "Warning!",
+              message: "NIK harus berupa angka",
+              duration: const Duration(seconds: 2),
+            ).show(context);
+          }
+          else{
             //if data not exist, add data to list and save it to shared preferences
             pesertaBloc.add(AddNewPeserta(nikController.text, namaController.text));
             saveSharedPreferences([NamaPeserta(idPeserta: nikController.text, namaPeserta: namaController.text)]);
@@ -304,7 +360,6 @@ class _DataPesertaState extends State<DataPeserta> {
   }
   
   Future<void> saveSharedPreferences(List<NamaPeserta> listPeserta) async {
-    print("Page : saveSP");
     pesertaList.addAll(listPeserta);
     List<Map<String, dynamic>> jsonList = pesertaList.map((obj) => obj.toJson()).toList();
     final prefs = await SharedPreferences.getInstance();
@@ -312,7 +367,6 @@ class _DataPesertaState extends State<DataPeserta> {
   }
 
   Future<void> updateSharedPreferences(List<NamaPeserta> listPeserta) async {
-    print("Page : updateSP");
     pesertaList = listPeserta;
     List<Map<String, dynamic>> jsonList = pesertaList.map((obj) => obj.toJson()).toList();
     final prefs = await SharedPreferences.getInstance();
@@ -327,7 +381,6 @@ class _DataPesertaState extends State<DataPeserta> {
   }
 
   void loadData() async {
-    print("Page : loadData");
     pesertaList = await loadSharedPreferences();
     pemenangList = await loadPemenangSharedPreferences();
     for (var element in pesertaList) {
@@ -337,8 +390,6 @@ class _DataPesertaState extends State<DataPeserta> {
     for (var element in pemenangList) {
       pesertaBloc.add(LoadPemenang(element.idPeserta, element.namaPeserta));
     }
-
-    print(pesertaList.length);
     pesertaBloc.add(ShowPemenang());
     pesertaBloc.add(ShowPeserta());
   }
