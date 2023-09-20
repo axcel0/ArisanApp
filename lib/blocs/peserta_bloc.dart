@@ -23,6 +23,7 @@ class PesertaBloc extends Bloc<PesertaEvent, PesertaState> {
     on<DeletePeserta>(_deletePeserta);
     on<DeletePemenang>(_deletePemenang);
     on<EditPeserta>(_editPeserta);
+    on<EditPemenang>(_editPemenang);
     on<DeleteAllPemenang>(_deleteAllPemenang);
     on<ShowPeserta>(_showPeserta);
     on<ShowPemenang>(_showPemenang);
@@ -91,6 +92,13 @@ class PesertaBloc extends Bloc<PesertaEvent, PesertaState> {
     tempList.namaPeserta = event.namaPeserta;
 
     //daftarPeserta[daftarPeserta.indexWhere((element) => element.idPeserta == event.idPeserta)].namaPeserta = event.namaPeserta;
+    emit(ListPesertaInitial(daftarPeserta));
+  }
+
+  Future<void> _editPemenang(EditPemenang event, Emitter<PesertaState> emit) async {
+    var tempList = daftarPemenang.firstWhere((element) => element.idPeserta == event.oldIdPeserta);
+    tempList.idPeserta = event.idPeserta;
+    tempList.namaPeserta = event.namaPeserta;
     emit(ListPesertaInitial(daftarPeserta));
   }
 }

@@ -43,6 +43,15 @@ class EditPeserta extends PesertaEvent {
   EditPeserta(this.idPeserta, this.namaPeserta, this.oldIdPeserta, this.oldNamaPeserta);
 }
 
+class EditPemenang extends PesertaEvent {
+  late String idPeserta;
+  late String namaPeserta;
+  late String oldIdPeserta;
+  late String oldNamaPeserta;
+
+  EditPemenang(this.idPeserta, this.namaPeserta, this.oldIdPeserta, this.oldNamaPeserta);
+}
+
 class DeleteAllPemenang extends PesertaEvent {}
 
 class ShowPeserta extends PesertaEvent {}

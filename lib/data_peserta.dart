@@ -19,6 +19,7 @@ class _DataPesertaState extends State<DataPeserta> {
 
   late PesertaBloc pesertaBloc;
   List<NamaPeserta> pesertaList = [];
+  List<NamaPeserta> pemenangList = [];
 
   @override
   void initState(){
@@ -26,6 +27,7 @@ class _DataPesertaState extends State<DataPeserta> {
     print("Page : initState");
     pesertaBloc = BlocProvider.of<PesertaBloc>(context);
     pesertaBloc.add(DeleteAllPeserta());
+    pesertaBloc.add(DeleteAllPemenang());
     loadData();
   }
 
@@ -181,6 +183,7 @@ class _DataPesertaState extends State<DataPeserta> {
               }else{
 
                 pesertaBloc.add(EditPeserta(nikController.text, namaController.text, oldId, oldNama));
+                pesertaBloc.add(EditPemenang(nikController.text, namaController.text, oldId, oldNama));
 
                 var tempList = pesertaList.firstWhere((element) => element.idPeserta == oldId && element.namaPeserta == oldNama);
                 tempList.idPeserta = nikController.text;
@@ -188,6 +191,14 @@ class _DataPesertaState extends State<DataPeserta> {
 
                 updateSharedPreferences(pesertaList);
 
+                if(pemenangList.any((element) => element.idPeserta == oldId)){
+                  var tempPemenang = pemenangList.firstWhere((element) => element.idPeserta == oldId && element.namaPeserta == oldNama);
+                  tempPemenang.idPeserta = nikController.text;
+                  tempPemenang.namaPeserta = namaController.text;
+
+                  updatePemenangSharedPreferences(pemenangList);
+                }
+                
                 Navigator.of(context).pop();
                 Flushbar(
                   backgroundColor: Colors.green,
@@ -308,20 +319,39 @@ class _DataPesertaState extends State<DataPeserta> {
     prefs.setStringList("PesertaList", jsonList.map((e) => jsonEncode(e)).toList());
   }
 
+  Future<void> updatePemenangSharedPreferences(List<NamaPeserta> listPeserta) async {
+    pemenangList = listPeserta;
+    List<Map<String, dynamic>> jsonList = pemenangList.map((obj) => obj.toJson()).toList();
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setStringList("PemenangList", jsonList.map((e) => jsonEncode(e)).toList());
+  }
+
   void loadData() async {
     print("Page : loadData");
     pesertaList = await loadSharedPreferences();
+    pemenangList = await loadPemenangSharedPreferences();
     for (var element in pesertaList) {
       pesertaBloc.add(LoadPeserta(element.idPeserta, element.namaPeserta));
     }
 
+    for (var element in pemenangList) {
+      pesertaBloc.add(LoadPemenang(element.idPeserta, element.namaPeserta));
+    }
+
     print(pesertaList.length);
+    pesertaBloc.add(ShowPemenang());
     pesertaBloc.add(ShowPeserta());
   }
 
   Future<List<NamaPeserta>> loadSharedPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     final jsonList = prefs.getStringList("PesertaList") ?? [];
+    return jsonList.map((e) => NamaPeserta.fromJson(jsonDecode(e))).toList();
+  }
+
+  Future<List<NamaPeserta>> loadPemenangSharedPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    final jsonList = prefs.getStringList("PemenangList") ?? [];
     return jsonList.map((e) => NamaPeserta.fromJson(jsonDecode(e))).toList();
   }
 
