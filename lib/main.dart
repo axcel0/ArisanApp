@@ -72,7 +72,7 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        themeMode: ThemeMode.system,
+        themeMode: ThemeMode.light,
         title: 'Arisan Software',
         home: const MyHomePage(title: 'Arisan Software'),
         debugShowCheckedModeBanner: false,
