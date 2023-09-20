@@ -24,7 +24,6 @@ class _DataPesertaState extends State<DataPeserta> {
   @override
   void initState(){
     super.initState();
-    print("Page : initState");
     pesertaBloc = BlocProvider.of<PesertaBloc>(context);
     pesertaBloc.add(DeleteAllPeserta());
     pesertaBloc.add(DeleteAllPemenang());
@@ -33,18 +32,15 @@ class _DataPesertaState extends State<DataPeserta> {
 
   @override
   Widget build(BuildContext context) {
-    print("Page : build");
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Data Peserta',),
         foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).colorScheme.primary,
+        title: const Text('Data Peserta',),
       ),
       body: BlocBuilder<PesertaBloc, PesertaState>(
         builder: (context, state) {
           if (state is ListPesertaInitial && state.listPeserta.isNotEmpty) {
-            print("if state");
-            print("state.listPeserta.length : ${state.listPeserta.length}");
             return ListView.builder(
               itemCount: state.listPeserta.length,
               itemBuilder: (context, index) {
@@ -69,6 +65,10 @@ class _DataPesertaState extends State<DataPeserta> {
                                 content: const Text("Apakah anda yakin ingin menghapus data ini?", textAlign: TextAlign.center,),
                                 actions: [
                                   ElevatedButton(onPressed: () {
+                                    Navigator.of(context).pop();
+                                  }, child: const Text("Batal", style: TextStyle(color: Colors.blue))),
+
+                                  ElevatedButton(onPressed: () {
                                     Colors.white.withOpacity(0.8);
                                     setState(() {
                                       pesertaBloc.add(DeletePeserta(state.listPeserta[index].idPeserta));
@@ -86,12 +86,8 @@ class _DataPesertaState extends State<DataPeserta> {
                                         duration: const Duration(seconds: 2),
                                       ).show(context);
                                     });
-                                  }, child: const Text("Ya", style: TextStyle(color: Colors.red))),
-                                  ElevatedButton(onPressed: () {
-                                    Colors.white.withOpacity(0.8);
-                                    Navigator.of(context).pop();
-                                  }, child: const Text("Tidak", style: TextStyle(color: Colors.blueAccent))),
-                                ],
+                                  }, child: const Text("Hapus", style: TextStyle(color: Colors.red))),
+                                   ],
                               ));
                         }, icon: const Icon(Icons.delete)),
                       ],

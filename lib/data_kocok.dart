@@ -5,15 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_training/data_pemenang.dart';
-
+import 'package:confetti/confetti.dart';
 import 'blocs/peserta_bloc.dart';
 import 'nama_peserta.dart';
 
 class DataKocok extends StatefulWidget {
-  const DataKocok({super.key});
+  DataKocok({super.key});
+  bool isShuffling = false;
+  final confetti = ConfettiController(duration: const Duration(seconds: 2));
+
+
 
   @override
   State<DataKocok> createState() => _DataKocokState();
+
 }
 
 class _DataKocokState extends State<DataKocok> {
@@ -23,20 +28,12 @@ class _DataKocokState extends State<DataKocok> {
   List<NamaPeserta> listdataPeserta = [];
   List<NamaPeserta> listdataPemenang = [];
 
-  /*
-  Stream<String> mulaiAcak(String id, String nama) async* {
-    await Future.delayed(const Duration(seconds: 2));
-    addDataPemenang(id, nama);
-    yield "Selamat kepada $nama, dengan Id $id";
-  }
-   */
-
   Stream<String> mulaiAcak(String id, String nama) async* {
     await Future.delayed(const Duration(seconds: 2));
     addDataPemenang(id, nama);
 
     final outputPemenang = "$id, $nama";
-
+    widget.confetti.play();
     yield outputPemenang;
   }
 
@@ -51,12 +48,37 @@ class _DataKocokState extends State<DataKocok> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Kocok Peserta'),
-        //backgroundColor: Theme.of(context).colorScheme.primary,
-      ),
-      body: changeView(kocokPemenang),
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Scaffold(
+          appBar: AppBar(
+            foregroundColor: Colors.white,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            title: const Text('Kocok Peserta', style: TextStyle(color: Colors.white),),
+          ),
+          body: changeView(kocokPemenang),
+        ),
+        ConfettiWidget(
+          confettiController: widget.confetti,
+          blastDirectionality: BlastDirectionality.explosive,
+          shouldLoop: false,
+          colors: const [
+            Colors.green,
+            Colors.blue,
+            Colors.pink,
+            Colors.orange,
+            Colors.purple,
+            Colors.yellow,
+            Colors.red,
+          ],
+          //set emission count
+          numberOfParticles: 10,
+          emissionFrequency: 0.05,
+          maxBlastForce: 100,
+          minBlastForce: 80,
+        )
+      ]
     );
   }
 
@@ -106,54 +128,41 @@ class _DataKocokState extends State<DataKocok> {
                       final output = snapshot.data?.split(", ");
                       return Center(
                           child: SizedBox(
-                            height: 125,
-                            child: Row(
+                            //auto height
+                            height: MediaQuery.of(context).size.height,
+                            width: MediaQuery.of(context).size.width,
+                            child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
+
                               children: [
-                                const Flexible(
-                                  flex: 1,
-                                  child: Padding(
-                                    padding: EdgeInsets.only(right: 20),
-                                    child: Text(
-                                      "Selamat kepada", style: TextStyle(fontSize: 35), textAlign: TextAlign.right,
-                                    ),
+                                const SizedBox(
+                                  child: Text(
+                                    "Selamat kepada", style: TextStyle(fontSize: 35), textAlign: TextAlign.right,
                                   ),
                                 ),
-                                Flexible(
-                                  flex: 1,
-                                  child: Stack(
-                                    alignment: Alignment.centerLeft,
-                                    children: [
-                                      Container(
-                                        color: Colors.blue,
-                                      ),
-                                      Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                output![1],
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 40,
-                                                ),
-                                                textAlign: TextAlign.right,
-                                              ),
-                                              Text(
-                                                output[0],
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 25,
-                                                ),
-                                                textAlign: TextAlign.left,
-                                              ),
-                                            ],
-                                          )
-                                      )
-                                    ],
-                                  ),
+                                Padding(
+                                    padding: const EdgeInsets.only(top: 20),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          output![1],
+                                          style: const TextStyle(
+                                            color: Colors.blue,
+                                            fontSize: 60,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        Text(
+                                          output[0],
+                                          style: const TextStyle(
+                                            color: Colors.blueGrey,
+                                            fontSize: 30,
+                                          ),
+                                        ),
+                                      ],
+                                    )
                                 )
                               ],
                             ),

@@ -71,7 +71,7 @@ class PesertaBloc extends Bloc<PesertaEvent, PesertaState> {
     Random random = Random();
     int randomNumber = random.nextInt(daftarPeserta.length);
 
-    daftarPemenang.addAll([NamaPeserta(idPeserta: daftarPeserta[randomNumber].idPeserta, namaPeserta: daftarPeserta[randomNumber].namaPeserta)]);
+    daftarPemenang.add(NamaPeserta(idPeserta: daftarPeserta[randomNumber].idPeserta, namaPeserta: daftarPeserta[randomNumber].namaPeserta));
     emit(ListPemenangInitial(daftarPemenang));
     emit(ShowPemenangInitial(daftarPeserta[randomNumber].idPeserta, daftarPeserta[randomNumber].namaPeserta));
   }

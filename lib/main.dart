@@ -112,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Padding(
                       padding: EdgeInsets.all(8),
-                      child: Icon(Icons.people_alt_rounded, size: 75, color: Colors.orange,),
+                      child: Icon(Icons.people_alt_rounded, size: 75, color: Colors.blueAccent,),
                     ),
                     Text("Data Peserta", style: TextStyle(fontSize: 15, ), textAlign: TextAlign.center,),
                   ],
@@ -138,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Padding(
                       padding: EdgeInsets.all(8),
-                      child: Icon(Icons.workspace_premium_rounded, size: 75, color: Colors.yellow,),
+                      child: Icon(Icons.workspace_premium_rounded, size: 75, color: Colors.amber,),
                     ),
                     Text("Data Pemenang", style: TextStyle(fontSize: 15), textAlign: TextAlign.center,),
                   ],
@@ -157,14 +157,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const DataKocok()));
+                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) =>  DataKocok()));
                 },
                 child: const Wrap(
                   alignment: WrapAlignment.center,
                   children: [
                     Padding(
                       padding: EdgeInsets.all(8),
-                      child: Icon(Icons.shuffle_rounded, size: 75, color: Colors.deepPurple,),
+                      child: Icon(Icons.shuffle_rounded, size: 75, color: Colors.teal,),
                     ),
                     Text("Kocok", style: TextStyle(fontSize: 15), textAlign: TextAlign.center,),
                   ],

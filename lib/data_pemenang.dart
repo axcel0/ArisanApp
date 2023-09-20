@@ -51,9 +51,9 @@ class _DataPemenangState extends State<DataPemenang> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pemenang Arisan'),
-        //add theme to this appbar
+        foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).colorScheme.primary,
+        title: const Text('Pemenang Arisan'),
       ),
       body: BlocBuilder<PesertaBloc, PesertaState>(
         builder: (context, state) {
