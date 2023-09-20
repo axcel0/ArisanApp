@@ -90,27 +90,6 @@ class _DataKocokState extends State<DataKocok> {
           ),
         );
 
-        /*
-        if (listdataPemenang.length < listdataPeserta.length) {
-          return Center(
-            child: ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  pesertaBloc.add(AddNewPemenang());
-                  kocokPemenang = true;
-                });
-              },
-              child: const Text("Mulai Kocok")
-            ),
-          );
-        }
-        else {
-          return Center(
-            child : Text("Semua peserta sudah dapat!")
-          );
-        }
-         */
-
       }
       case true : {
         return BlocBuilder<PesertaBloc, PesertaState>(
@@ -123,27 +102,6 @@ class _DataKocokState extends State<DataKocok> {
                       return const Center(child: CircularProgressIndicator());
                     }
 
-                    /*
-                    if (snapshot.hasData) {
-                      return Center(
-                        child: Row(
-                          children: [
-                            Text(snapshot.data.toString(), style: TextStyle(fontSize: 35),),
-                            Stack(
-                              children: [
-                                Container(
-                                  color: Colors.green,
-
-                                )
-                              ],
-                            )
-                          ],
-                        )
-                        //child: Text(snapshot.data.toString())
-                      );
-                    }
-                     */
-
                     if (snapshot.hasData) {
                       final output = snapshot.data?.split(", ");
                       return Center(
@@ -152,10 +110,10 @@ class _DataKocokState extends State<DataKocok> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Flexible(
+                                const Flexible(
                                   flex: 1,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(right: 20),
+                                    padding: EdgeInsets.only(right: 20),
                                     child: Text(
                                       "Selamat kepada", style: TextStyle(fontSize: 35), textAlign: TextAlign.right,
                                     ),
@@ -176,16 +134,16 @@ class _DataKocokState extends State<DataKocok> {
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                output![0],
-                                                style: TextStyle(
+                                                output![1],
+                                                style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 40,
                                                 ),
                                                 textAlign: TextAlign.right,
                                               ),
                                               Text(
-                                                output[1],
-                                                style: TextStyle(
+                                                output[0],
+                                                style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 25,
                                                 ),
