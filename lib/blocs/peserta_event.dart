@@ -7,6 +7,11 @@ class AddNewPeserta extends PesertaEvent {
   late String newNamaPeserta;
   AddNewPeserta(this.newIdPeserta, this.newNamaPeserta);
 }
+//class changetheme to change theme to light or dark mode
+class ChangeTheme extends PesertaEvent {
+  late bool isDark;
+  ChangeTheme(this.isDark);
+}
 
 class AddNewPemenang extends PesertaEvent {}
 
@@ -39,6 +44,7 @@ class EditPeserta extends PesertaEvent {
   late String namaPeserta;
   late String oldIdPeserta;
   late String oldNamaPeserta;
+  late String timeStamp;
 
   EditPeserta(this.idPeserta, this.namaPeserta, this.oldIdPeserta, this.oldNamaPeserta);
 }

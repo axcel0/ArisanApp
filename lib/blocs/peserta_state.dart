@@ -20,5 +20,11 @@ class ListPemenangInitial extends PesertaState {
 class ShowPemenangInitial extends PesertaState {
   late String newIdPeserta;
   late String newNamaPeserta;
+  late String timeStamp;
   ShowPemenangInitial(this.newIdPeserta, this.newNamaPeserta);
+}
+
+class ChangeThemeState extends PesertaState {
+  late bool isDark;
+  ChangeThemeState(this.isDark);
 }

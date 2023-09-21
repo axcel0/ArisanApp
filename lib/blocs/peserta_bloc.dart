@@ -27,6 +27,7 @@ class PesertaBloc extends Bloc<PesertaEvent, PesertaState> {
     on<DeleteAllPemenang>(_deleteAllPemenang);
     on<ShowPeserta>(_showPeserta);
     on<ShowPemenang>(_showPemenang);
+    on<ChangeTheme>(_changeTheme);
   }
 
   Future<void> _showPemenang(ShowPemenang event, Emitter<PesertaState> emit) async {
@@ -101,4 +102,15 @@ class PesertaBloc extends Bloc<PesertaEvent, PesertaState> {
     tempList.namaPeserta = event.namaPeserta;
     emit(ListPesertaInitial(daftarPeserta));
   }
+  //future change theme light or dark
+  Future<void> _changeTheme(ChangeTheme event, Emitter<PesertaState> emit) async {
+    emit(ChangeThemeState(event.isDark));
+  }
+  //future time stamp
+  String getTimeStamp() {
+    var now = DateTime.now();
+    var time = '${now.hour}:${now.minute}';
+    return time;
+  }
+
 }

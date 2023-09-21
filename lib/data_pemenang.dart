@@ -65,6 +65,8 @@ class _DataPemenangState extends State<DataPemenang> {
                   child: ListTile(
                     title: Text(state.listPemenang[index].namaPeserta),
                     subtitle: Text(state.listPemenang[index].idPeserta),
+                    //show time stamp using trailing widget
+                    // trailing: Text(state.listPemenang[index].timeStamp),
                   )
                 );
               }

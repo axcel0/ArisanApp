@@ -46,8 +46,8 @@ class _DataPesertaState extends State<DataPeserta> {
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
-                    title: Text(state.listPeserta[index].namaPeserta),
-                    subtitle: Text(state.listPeserta[index].idPeserta),
+                    title: Text(state.listPeserta[index].namaPeserta, style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color)),
+                    subtitle: Text(state.listPeserta[index].idPeserta, style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color)),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -60,7 +60,7 @@ class _DataPesertaState extends State<DataPeserta> {
                             onPressed: () {
                               //add dialog to confirm delete
                               showDialog(context: context, builder: (context) => AlertDialog(
-                                backgroundColor: Colors.white.withOpacity(0.8),
+                                backgroundColor: Theme.of(context).colorScheme.primary,
                                 title: const Text("Konfirmasi", textAlign: TextAlign.center,),
                                 content: const Text("Apakah anda yakin ingin menghapus data ini?", textAlign: TextAlign.center,),
                                 actions: [
@@ -124,7 +124,8 @@ class _DataPesertaState extends State<DataPeserta> {
     namaController.text = editNama;
 
     return AlertDialog(
-      backgroundColor: Colors.white.withOpacity(0.8),
+      //background color as primary color
+      backgroundColor: Theme.of(context).colorScheme.primary,
       title: const SizedBox(
         height: 25,
         child: Text("Edit Data", textAlign: TextAlign.center,),
@@ -141,8 +142,10 @@ class _DataPesertaState extends State<DataPeserta> {
             ),
             TextField(
               controller: namaController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: "Masukkan Nama",
+                //color of hint text
+                hintStyle: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color),
               ),
             ),
             const SizedBox(
@@ -154,8 +157,9 @@ class _DataPesertaState extends State<DataPeserta> {
             ),
             TextField(
               controller: nikController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: "Masukkan NIK",
+                hintStyle: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color),
               ),
             ),
           ],
@@ -239,7 +243,7 @@ class _DataPesertaState extends State<DataPeserta> {
             }
           });
         },
-            child: const Text("Save")),
+            child: Text("Save", style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color))),
       ],
     );
   }
@@ -249,10 +253,10 @@ class _DataPesertaState extends State<DataPeserta> {
     var nikController = TextEditingController();
 
     return AlertDialog(
-      backgroundColor: Colors.white,
-      title: const SizedBox(
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      title: SizedBox(
         height: 25,
-        child: Text("Tambah Data", textAlign: TextAlign.center,),
+        child: Text("Tambah Data", textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color)),
       ),
       content: SizedBox(
         height: 200,
@@ -261,12 +265,13 @@ class _DataPesertaState extends State<DataPeserta> {
           children: [
             Container(
               alignment: Alignment.centerLeft,
-              child: const Text("Nama"),
+              child: Text("Nama", style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color)),
             ),
              TextField(
               controller: namaController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: "Masukkan Nama",
+                hintStyle: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color),
               ),
             ),
             const SizedBox(
@@ -274,12 +279,13 @@ class _DataPesertaState extends State<DataPeserta> {
             ),
             Container(
               alignment: Alignment.centerLeft,
-              child: const Text("NIK"),
+              child: Text("NIK", style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color)),
             ),
              TextField(
               controller: nikController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: "Masukkan NIK",
+                hintStyle: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color),
               ),
             ),
           ],
@@ -350,7 +356,7 @@ class _DataPesertaState extends State<DataPeserta> {
         }
       });
     },
-        child: const Text("Save")),
+        child: Text("Save", style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color))),
       ],
     );
   }

@@ -11,9 +11,14 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -72,7 +77,7 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        themeMode: ThemeMode.light,
+        // themeMode: ThemeMode.light,
         title: 'Arisan Software',
         home: const MyHomePage(title: 'Arisan Software'),
         debugShowCheckedModeBanner: false,
@@ -96,6 +101,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+            //check if theme is light or dark
+              if (Theme.of(context).brightness == Brightness.light) {
+                BlocProvider.of<PesertaBloc>(context).add(ChangeTheme(true));
+              } else {
+                BlocProvider.of<PesertaBloc>(context).add(ChangeTheme(false));
+              }
+            },
+            icon: Icon(
+              Theme.of(context).brightness == Brightness.light
+                  ? Icons.dark_mode
+                  : Icons.light_mode,
+            ),
+          ),
+        ],
         title: Text(widget.title),
         foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).colorScheme.primary,

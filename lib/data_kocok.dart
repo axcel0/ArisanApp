@@ -91,7 +91,10 @@ class _DataKocokState extends State<DataKocok> {
             onPressed: () {
               setState(() {
                 //var to compare listdataPeserta and listdataPemenang
-                var listdataPesertaComparison = listdataPeserta.where((item1) => !listdataPemenang.any((item2) => item1.idPeserta == item2.idPeserta && item1.namaPeserta == item2.namaPeserta)).toList();
+                var listdataPesertaComparison = listdataPeserta.where(
+                        (item1) => !listdataPemenang.any(
+                                (item2) => item1.idPeserta == item2.idPeserta && item1.namaPeserta == item2.namaPeserta)
+                ).toList();
                 if (listdataPesertaComparison.isNotEmpty) {
                   pesertaBloc.add(AddNewPemenang());
                   kocokPemenang = true;
@@ -124,6 +127,7 @@ class _DataKocokState extends State<DataKocok> {
               );
             },
             child: const Text("Mulai Kocok"),
+
           ),
         );
 
@@ -180,17 +184,16 @@ class _DataKocokState extends State<DataKocok> {
                                       ],
                                     )
                                 ),
-                                SizedBox(height: 20,),
+                                const SizedBox(height: 20,),
                                 ElevatedButton(
                                   onPressed: () async {
                                     listdataPemenang = await loadSharedPreferences();
                                     setState(() {
                                       //var to compare listdataPeserta and listdataPemenang
-                                      var listdataPesertaComparison = listdataPeserta.where((item1) => !listdataPemenang.any((item2) => item1.idPeserta == item2.idPeserta && item1.namaPeserta == item2.namaPeserta)).toList();
-
-                                      print("listdataPeserta : ${listdataPeserta.length}");
-                                      print("listdataPemenang : ${listdataPemenang.length}");
-                                      print("listdataPesertaComparison : ${listdataPesertaComparison.length}");
+                                      var listdataPesertaComparison = listdataPeserta.where(
+                                              (item1) => !listdataPemenang.any(
+                                                      (item2) => item1.idPeserta == item2.idPeserta && item1.namaPeserta == item2.namaPeserta)
+                                      ).toList();
 
                                       if (listdataPesertaComparison.isNotEmpty) {
                                         pesertaBloc.add(AddNewPemenang());
