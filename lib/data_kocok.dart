@@ -179,7 +179,53 @@ class _DataKocokState extends State<DataKocok> {
                                         //make a button to shuffle again
                                       ],
                                     )
-                                )
+                                ),
+                                SizedBox(height: 20,),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    listdataPemenang = await loadSharedPreferences();
+                                    setState(() {
+                                      //var to compare listdataPeserta and listdataPemenang
+                                      var listdataPesertaComparison = listdataPeserta.where((item1) => !listdataPemenang.any((item2) => item1.idPeserta == item2.idPeserta && item1.namaPeserta == item2.namaPeserta)).toList();
+
+                                      print("listdataPeserta : ${listdataPeserta.length}");
+                                      print("listdataPemenang : ${listdataPemenang.length}");
+                                      print("listdataPesertaComparison : ${listdataPesertaComparison.length}");
+
+                                      if (listdataPesertaComparison.isNotEmpty) {
+                                        pesertaBloc.add(AddNewPemenang());
+                                        kocokPemenang = true;
+                                      } else if(listdataPeserta.isEmpty){
+                                        kocokPemenang = false;
+                                        Flushbar(
+                                          backgroundColor: Colors.red,
+                                          icon: const Icon(
+                                            Icons.info_outline,
+                                            color: Colors.white,
+                                          ),
+                                          title: "Warning!",
+                                          message: "Data peserta masih kosong!",
+                                          duration: const Duration(seconds: 2),
+                                        ).show(context);
+                                      }else if(listdataPesertaComparison.isEmpty){
+                                        kocokPemenang = false;
+                                        Flushbar(
+                                          backgroundColor: Colors.red,
+                                          icon: const Icon(
+                                            Icons.info_outline,
+                                            color: Colors.white,
+                                          ),
+                                          title: "Warning!",
+                                          message: "Data peserta sudah habis!",
+                                          duration: const Duration(seconds: 2),
+                                        ).show(context);
+                                      }
+                                    }
+                                    );
+                                  },
+                                  child: const Text("Kocok Lagi"),
+                                ),
+
                               ],
                             ),
                           )
