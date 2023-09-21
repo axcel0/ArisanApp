@@ -90,15 +90,12 @@ class _DataKocokState extends State<DataKocok> {
           child: ElevatedButton(
             onPressed: () {
               setState(() {
-
-                var listdataPesertaComparison = listdataPeserta;
-                listdataPesertaComparison.removeWhere((item1) => listdataPemenang.any((item2) => item1.idPeserta == item2.idPeserta && item1.namaPeserta == item2.namaPeserta));
-
-                //if (listdataPemenang.length < listdataPeserta.length) {
+                //var to compare listdataPeserta and listdataPemenang
+                var listdataPesertaComparison = listdataPeserta.where((item1) => !listdataPemenang.any((item2) => item1.idPeserta == item2.idPeserta && item1.namaPeserta == item2.namaPeserta)).toList();
                 if (listdataPesertaComparison.isNotEmpty) {
                   pesertaBloc.add(AddNewPemenang());
                   kocokPemenang = true;
-                } else {
+                } else if(listdataPeserta.isEmpty){
                   kocokPemenang = false;
                   Flushbar(
                     backgroundColor: Colors.red,
@@ -107,11 +104,24 @@ class _DataKocokState extends State<DataKocok> {
                       color: Colors.white,
                     ),
                     title: "Warning!",
-                    message: "Semua peserta sudah dapat!",
+                    message: "Data peserta masih kosong!",
+                    duration: const Duration(seconds: 2),
+                  ).show(context);
+                }else if(listdataPesertaComparison.isEmpty){
+                  kocokPemenang = false;
+                  Flushbar(
+                    backgroundColor: Colors.red,
+                    icon: const Icon(
+                      Icons.info_outline,
+                      color: Colors.white,
+                    ),
+                    title: "Warning!",
+                    message: "Data peserta sudah habis!",
                     duration: const Duration(seconds: 2),
                   ).show(context);
                 }
-              });
+              }
+              );
             },
             child: const Text("Mulai Kocok"),
           ),
@@ -166,6 +176,7 @@ class _DataKocokState extends State<DataKocok> {
                                             fontSize: 30,
                                           ),
                                         ),
+                                        //make a button to shuffle again
                                       ],
                                     )
                                 )
