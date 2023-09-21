@@ -90,7 +90,12 @@ class _DataKocokState extends State<DataKocok> {
           child: ElevatedButton(
             onPressed: () {
               setState(() {
-                if (listdataPemenang.length < listdataPeserta.length) {
+
+                var listdataPesertaComparison = listdataPeserta;
+                listdataPesertaComparison.removeWhere((item1) => listdataPemenang.any((item2) => item1.idPeserta == item2.idPeserta && item1.namaPeserta == item2.namaPeserta));
+
+                //if (listdataPemenang.length < listdataPeserta.length) {
+                if (listdataPesertaComparison.isNotEmpty) {
                   pesertaBloc.add(AddNewPemenang());
                   kocokPemenang = true;
                 } else {
