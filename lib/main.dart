@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
                 primarySwatch: Colors.blue,
                 backgroundColor: Colors.white38,
                 accentColor: Colors.white12,
-                cardColor: Colors.blueGrey.shade100,
+                cardColor: Colors.blueGrey.shade50,
                 errorColor: Colors.red,
               ),
               primaryTextTheme: const TextTheme(
