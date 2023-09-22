@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
                 primarySwatch: Colors.blue,
                 backgroundColor: Colors.white38,
                 accentColor: Colors.white12,
-                cardColor: Colors.blueGrey.shade50,
+                cardColor: Colors.blueGrey.shade100,
                 errorColor: Colors.red,
               ),
               primaryTextTheme: const TextTheme(
@@ -159,9 +159,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Wrap(
                   alignment: WrapAlignment.center,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Icon(Icons.people_alt_rounded, size: 75, color: Colors.blueAccent,),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Icon(Icons.people_alt_rounded, size: 75, color: Theme.of(context).colorScheme.brightness == Brightness.light ? Colors.blueAccent : Colors.indigo,),
                     ),//add text with primary color same as foreground color
                     Text("Participant",
                       style: TextStyle(
@@ -189,9 +189,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Wrap(
                   alignment: WrapAlignment.center,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Icon(Icons.workspace_premium_rounded, size: 75, color: Colors.amber,),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Icon(Icons.workspace_premium_rounded, size: 75, color: Theme.of(context).colorScheme.brightness == Brightness.light ? Colors.amber : Colors.orange,),
                     ),
                     Text("Winner",
                       style: TextStyle(
@@ -219,9 +219,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Wrap(
                   alignment: WrapAlignment.center,
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Icon(Icons.shuffle_rounded, size: 75, color: Colors.teal,),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Icon(Icons.shuffle_rounded, size: 75, color: Theme.of(context).colorScheme.brightness == Brightness.light ? Colors.blue : Colors.teal,),
                     ),
                     Text("Shuffle",
                       style: TextStyle(

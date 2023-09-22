@@ -60,7 +60,10 @@ class _DataPesertaState extends State<DataPeserta> {
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
-                    //set listtile color based on theme brightness
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(80),
+                        //set border radius more than 50% of height and width to make circle
+                      ),
                     title: Text(state.listPeserta[index].namaPeserta,
                         style: TextStyle(
                           fontSize: 18,
@@ -90,7 +93,7 @@ class _DataPesertaState extends State<DataPeserta> {
                                 actions: [
                                   ElevatedButton(onPressed: () {
                                     Navigator.of(context).pop();
-                                  }, child: const Text("Batal", style: TextStyle(color: Colors.lightBlue))),
+                                  }, child: Text("Batal", style: TextStyle(color: Theme.of(context).colorScheme.brightness == Brightness.light ? Theme.of(context).primaryColor : Colors.lightBlue,))),
 
                                   ElevatedButton(onPressed: () {
                                     Colors.white.withOpacity(0.8);
