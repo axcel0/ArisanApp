@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_training/data_pemenang.dart';
 import 'package:confetti/confetti.dart';
 import 'blocs/peserta_bloc.dart';
+import 'cubit/theme_mode_cubit.dart';
 import 'nama_peserta.dart';
 
 class DataKocok extends StatefulWidget {
@@ -53,9 +54,21 @@ class _DataKocokState extends State<DataKocok> {
       children: [
         Scaffold(
           appBar: AppBar(
+            actions: [
+              IconButton(
+                onPressed: () {
+                  context.read<ThemeModeCubit>().toggleBrightness();
+                },
+                icon: BlocBuilder<ThemeModeCubit, ThemeMode>(
+                  builder: (context, state) {
+                    return state == ThemeMode.light ? const Icon(Icons.light_mode) : const Icon(Icons.dark_mode);
+                  },
+                ),
+              ),
+            ],
             foregroundColor: Colors.white,
             backgroundColor: Theme.of(context).colorScheme.primary,
-            title: const Text('Kocok Peserta', style: TextStyle(color: Colors.white),),
+            title: const Text('Shuffle', style: TextStyle(color: Colors.white),),
           ),
           body: changeView(kocokPemenang),
         ),
@@ -126,7 +139,7 @@ class _DataKocokState extends State<DataKocok> {
               }
               );
             },
-            child: const Text("Mulai Kocok"),
+            child: Text("Shuffle", style: TextStyle(color: Theme.of(context).colorScheme.brightness == Brightness.light ? Colors.blue : Colors.teal,)),
 
           ),
         );
@@ -154,9 +167,15 @@ class _DataKocokState extends State<DataKocok> {
                               mainAxisAlignment: MainAxisAlignment.center,
 
                               children: [
-                                const SizedBox(
+                                 SizedBox(
                                   child: Text(
-                                    "Selamat kepada", style: TextStyle(fontSize: 35), textAlign: TextAlign.right,
+                                    "Congratulation!",
+                                    style: TextStyle(
+                                      fontSize: 35,
+                                      color: Theme.of(context).colorScheme.brightness == Brightness.light ? Colors.orange : Colors.amber,
+
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                                 Padding(
@@ -166,8 +185,8 @@ class _DataKocokState extends State<DataKocok> {
                                       children: [
                                         Text(
                                           output![1],
-                                          style: const TextStyle(
-                                            color: Colors.blue,
+                                          style: TextStyle(
+                                            color: Theme.of(context).colorScheme.brightness == Brightness.light ? Colors.amber : Colors.amberAccent,
                                             fontSize: 60,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -175,8 +194,8 @@ class _DataKocokState extends State<DataKocok> {
                                         ),
                                         Text(
                                           output[0],
-                                          style: const TextStyle(
-                                            color: Colors.blueGrey,
+                                          style: TextStyle(
+                                            color: Theme.of(context).colorScheme.brightness == Brightness.light ? Colors.amber : Colors.amberAccent,
                                             fontSize: 30,
                                           ),
                                         ),
@@ -226,7 +245,7 @@ class _DataKocokState extends State<DataKocok> {
                                     }
                                     );
                                   },
-                                  child: const Text("Kocok Lagi"),
+                                  child: Text("Shuffle again",style: TextStyle(color: Theme.of(context).colorScheme.brightness == Brightness.light ? Colors.blue : Colors.teal,)),
                                 ),
 
                               ],

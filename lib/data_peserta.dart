@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_training/nama_peserta.dart';
+import 'cubit/theme_mode_cubit.dart';
 import 'main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'blocs/peserta_bloc.dart';
@@ -34,9 +36,21 @@ class _DataPesertaState extends State<DataPeserta> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              context.read<ThemeModeCubit>().toggleBrightness();
+            },
+            icon: BlocBuilder<ThemeModeCubit, ThemeMode>(
+              builder: (context, state) {
+                return state == ThemeMode.light ? const Icon(Icons.light_mode) : const Icon(Icons.dark_mode);
+              },
+            ),
+          ),
+        ],
         foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).colorScheme.primary,
-        title: const Text('Data Peserta',),
+        title: const Text('Participant List',),
       ),
       body: BlocBuilder<PesertaBloc, PesertaState>(
         builder: (context, state) {
@@ -46,8 +60,18 @@ class _DataPesertaState extends State<DataPeserta> {
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
-                    title: Text(state.listPeserta[index].namaPeserta, style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color)),
-                    subtitle: Text(state.listPeserta[index].idPeserta, style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color)),
+                    //set font size of title and subtitle to 16
+                    title: Text(state.listPeserta[index].namaPeserta,
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Theme.of(context).primaryTextTheme.titleMedium!.color,
+                    )),
+                    subtitle: Text(state.listPeserta[index].idPeserta,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Theme.of(context).primaryTextTheme.titleMedium!.color,
+                        )
+                    ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -60,13 +84,13 @@ class _DataPesertaState extends State<DataPeserta> {
                             onPressed: () {
                               //add dialog to confirm delete
                               showDialog(context: context, builder: (context) => AlertDialog(
-                                backgroundColor: Theme.of(context).colorScheme.primary,
-                                title: const Text("Konfirmasi", textAlign: TextAlign.center,),
-                                content: const Text("Apakah anda yakin ingin menghapus data ini?", textAlign: TextAlign.center,),
+                                backgroundColor: Theme.of(context).colorScheme.brightness == Brightness.light ? Theme.of(context).cardColor : Theme.of(context).cardColor,
+                                title: Text("Konfirmasi", textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).colorScheme.brightness == Brightness.light ? Theme.of(context).primaryTextTheme.titleMedium!.color : Theme.of(context).primaryTextTheme.titleMedium!.color),),
+                                content: Text("Apakah anda yakin ingin menghapus data ini?", textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).colorScheme.brightness == Brightness.light ? Theme.of(context).primaryTextTheme.titleMedium!.color : Theme.of(context).primaryTextTheme.titleMedium!.color,)),
                                 actions: [
                                   ElevatedButton(onPressed: () {
                                     Navigator.of(context).pop();
-                                  }, child: const Text("Batal", style: TextStyle(color: Colors.blue))),
+                                  }, child: const Text("Batal", style: TextStyle(color: Colors.lightBlue))),
 
                                   ElevatedButton(onPressed: () {
                                     Colors.white.withOpacity(0.8);
@@ -97,8 +121,8 @@ class _DataPesertaState extends State<DataPeserta> {
               }
             );
           }else{
-            return const Center(
-              child: Text("Data Peserta masih kosong"),
+            return Center(
+              child: Text("Data Peserta masih kosong", style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color)),
             );
           }
         },
@@ -124,11 +148,10 @@ class _DataPesertaState extends State<DataPeserta> {
     namaController.text = editNama;
 
     return AlertDialog(
-      //background color as primary color
-      backgroundColor: Theme.of(context).colorScheme.primary,
-      title: const SizedBox(
+      backgroundColor: Theme.of(context).colorScheme.brightness == Brightness.light ? Colors.white : Theme.of(context).cardColor,
+      title: SizedBox(
         height: 25,
-        child: Text("Edit Data", textAlign: TextAlign.center,),
+        child: Text("Edit Data", textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).colorScheme.brightness == Brightness.light ? Theme.of(context).primaryTextTheme.titleMedium!.color : Theme.of(context).primaryTextTheme.titleMedium!.color,)),
       ),
       content: SizedBox(
         height: 200,
@@ -138,9 +161,10 @@ class _DataPesertaState extends State<DataPeserta> {
             Container(
               alignment: Alignment.centerLeft,
               //change font family of text
-              child: const Text("Nama"),
+              child: Text("Nama", style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color)),
             ),
             TextField(
+              style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color),
               controller: namaController,
               decoration: InputDecoration(
                 hintText: "Masukkan Nama",
@@ -153,9 +177,10 @@ class _DataPesertaState extends State<DataPeserta> {
             ),
             Container(
               alignment: Alignment.centerLeft,
-              child: const Text("NIK"),
+              child: Text("NIK", style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color)),
             ),
             TextField(
+              style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color),
               controller: nikController,
               decoration: InputDecoration(
                 hintText: "Masukkan NIK",
@@ -243,7 +268,7 @@ class _DataPesertaState extends State<DataPeserta> {
             }
           });
         },
-            child: Text("Save", style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color))),
+            child: Text("Save", style: TextStyle(color: Theme.of(context).colorScheme.brightness == Brightness.light ? Theme.of(context).colorScheme.primary : Colors.lightBlue,))),
       ],
     );
   }
@@ -253,10 +278,10 @@ class _DataPesertaState extends State<DataPeserta> {
     var nikController = TextEditingController();
 
     return AlertDialog(
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Theme.of(context).colorScheme.brightness == Brightness.light ? Colors.white : Theme.of(context).cardColor,
       title: SizedBox(
         height: 25,
-        child: Text("Tambah Data", textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color)),
+        child: Text("Tambah Data", textAlign: TextAlign.center, style: TextStyle(color: Theme.of(context).colorScheme.brightness == Brightness.light ? Theme.of(context).primaryTextTheme.titleMedium!.color : Theme.of(context).primaryTextTheme.titleMedium!.color,)),
       ),
       content: SizedBox(
         height: 200,
@@ -268,6 +293,7 @@ class _DataPesertaState extends State<DataPeserta> {
               child: Text("Nama", style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color)),
             ),
              TextField(
+               style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color),
               controller: namaController,
               decoration: InputDecoration(
                 hintText: "Masukkan Nama",
@@ -282,6 +308,7 @@ class _DataPesertaState extends State<DataPeserta> {
               child: Text("NIK", style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color)),
             ),
              TextField(
+                style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color),
               controller: nikController,
               decoration: InputDecoration(
                 hintText: "Masukkan NIK",
@@ -356,7 +383,7 @@ class _DataPesertaState extends State<DataPeserta> {
         }
       });
     },
-        child: Text("Save", style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color))),
+        child: Text("Save", style: TextStyle(color: Theme.of(context).colorScheme.brightness == Brightness.light ? Theme.of(context).colorScheme.primary : Colors.lightBlue,))),
       ],
     );
   }

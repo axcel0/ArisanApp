@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
           return MaterialApp(
             theme: ThemeData(
               //use google font as theme
-              textTheme: GoogleFonts.robotoTextTheme(
+              textTheme: GoogleFonts.latoTextTheme(
                 Theme.of(context).textTheme,
               ),
               //use color scheme of material theme
@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
                 titleLarge: TextStyle(color: Colors.black),
                 bodyMedium: TextStyle(color: Colors.black),
                 bodyLarge: TextStyle(color: Colors.black),
-                titleMedium: TextStyle(color: Colors.blue),
+                titleMedium: TextStyle(color: Colors.black87),
                 titleSmall: TextStyle(color: Colors.black),
                 bodySmall: TextStyle(color: Colors.black),
                 labelLarge: TextStyle(color: Colors.black),
@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
             ),
             darkTheme: ThemeData(
               //use google font as theme
-              textTheme: GoogleFonts.robotoTextTheme(
+              textTheme: GoogleFonts.latoTextTheme(
                 Theme.of(context).textTheme,
               ),
               //use color scheme of material theme
@@ -81,14 +81,14 @@ class _MyAppState extends State<MyApp> {
                 primarySwatch: Colors.indigo,
                 backgroundColor: Colors.black87,
                 accentColor: Colors.white12,
-                cardColor: Colors.white10,
+                cardColor: Colors.blueGrey.shade900,
                 errorColor: Colors.red,
               ),
               primaryTextTheme: const TextTheme(
                 titleLarge: TextStyle(color: Colors.white),
                 bodyMedium: TextStyle(color: Colors.white),
                 bodyLarge: TextStyle(color: Colors.white),
-                titleMedium: TextStyle(color: Colors.white),
+                titleMedium: TextStyle(color: Colors.white70),
                 titleSmall: TextStyle(color: Colors.white),
                 bodySmall: TextStyle(color: Colors.white),
                 labelLarge: TextStyle(color: Colors.white),
@@ -129,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
             },
             icon: BlocBuilder<ThemeModeCubit, ThemeMode>(
               builder: (context, state) {
-                return state == ThemeMode.light ? Icon(Icons.light_mode) : Icon(Icons.dark_mode);
+                return state == ThemeMode.light ? const Icon(Icons.light_mode) : const Icon(Icons.dark_mode);
               },
             ),
           ),
@@ -163,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: EdgeInsets.all(8),
                       child: Icon(Icons.people_alt_rounded, size: 75, color: Colors.blueAccent,),
                     ),//add text with primary color same as foreground color
-                    Text("Data Peserta",
+                    Text("Participant",
                       style: TextStyle(
                         fontSize: 15,
                         color: Theme.of(context).primaryTextTheme.titleMedium!.color,
@@ -193,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: EdgeInsets.all(8),
                       child: Icon(Icons.workspace_premium_rounded, size: 75, color: Colors.amber,),
                     ),
-                    Text("Data Pemenang",
+                    Text("Winner",
                       style: TextStyle(
                         fontSize: 15,
                         color: Theme.of(context).primaryTextTheme.titleMedium!.color,
@@ -223,7 +223,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: EdgeInsets.all(8),
                       child: Icon(Icons.shuffle_rounded, size: 75, color: Colors.teal,),
                     ),
-                    Text("Kocok",
+                    Text("Shuffle",
                       style: TextStyle(
                         fontSize: 15,
                         color: Theme.of(context).primaryTextTheme.titleMedium!.color,
