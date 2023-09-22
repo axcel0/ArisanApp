@@ -1,13 +1,23 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_training/blocs/peserta_bloc.dart';
+import 'cubit/theme_mode_cubit.dart';
 import 'data_kocok.dart';
 import 'data_pemenang.dart';
 import 'data_peserta.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  HydratedBloc.storage = await HydratedStorage.build(
+      storageDirectory: kIsWeb
+          ? HydratedStorage.webStorageDirectory
+          : await getTemporaryDirectory()
+  );
   runApp(const MyApp());
 }
 
@@ -22,67 +32,78 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<PesertaBloc>(
-      create: (context) => PesertaBloc(),
-      child: MaterialApp(
-        theme: ThemeData(
-          //use google font as theme
-          textTheme: GoogleFonts.robotoTextTheme(
-            Theme.of(context).textTheme,
-          ),
-          //use color scheme of material theme
-          colorScheme: ColorScheme.fromSwatch(
-            brightness: Brightness.light,
-            primarySwatch: Colors.blue,
-            backgroundColor: Colors.white38,
-            accentColor: Colors.white12,
-            cardColor: Colors.blueGrey.shade50,
-            errorColor: Colors.red,
-          ),
-          primaryTextTheme: const TextTheme(
-            titleLarge: TextStyle(color: Colors.black),
-            bodyMedium: TextStyle(color: Colors.black),
-            bodyLarge: TextStyle(color: Colors.black),
-            titleMedium: TextStyle(color: Colors.blue),
-            titleSmall: TextStyle(color: Colors.black),
-            bodySmall: TextStyle(color: Colors.black),
-            labelLarge: TextStyle(color: Colors.black),
-            labelSmall: TextStyle(color: Colors.black),
-          ),
-          useMaterial3: true,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<PesertaBloc>(
+          create: (context) => PesertaBloc(),
         ),
-        darkTheme: ThemeData(
-          //use google font as theme
-          textTheme: GoogleFonts.robotoTextTheme(
-            Theme.of(context).textTheme,
-          ),
-          //use color scheme of material theme
-          colorScheme: ColorScheme.fromSwatch(
-            brightness: Brightness.dark,
-            primarySwatch: Colors.indigo,
-            backgroundColor: Colors.black87,
-            accentColor: Colors.white12,
-            cardColor: Colors.white10,
-            errorColor: Colors.red,
-          ),
-          primaryTextTheme: const TextTheme(
-            titleLarge: TextStyle(color: Colors.white),
-            bodyMedium: TextStyle(color: Colors.white),
-            bodyLarge: TextStyle(color: Colors.white),
-            titleMedium: TextStyle(color: Colors.white),
-            titleSmall: TextStyle(color: Colors.white),
-            bodySmall: TextStyle(color: Colors.white),
-            labelLarge: TextStyle(color: Colors.white),
-            labelSmall: TextStyle(color: Colors.white),
-          ),
-          useMaterial3: true,
+        BlocProvider(
+          create: (context) => ThemeModeCubit(),
         ),
-        // themeMode: ThemeMode.light,
-        title: 'Arisan Software',
-        home: const MyHomePage(title: 'Arisan Software'),
-        debugShowCheckedModeBanner: false,
-    ),
-);
+      ],
+      child: BlocBuilder<ThemeModeCubit, ThemeMode>(
+          builder: (context, state) {
+          return MaterialApp(
+            theme: ThemeData(
+              //use google font as theme
+              textTheme: GoogleFonts.robotoTextTheme(
+                Theme.of(context).textTheme,
+              ),
+              //use color scheme of material theme
+              colorScheme: ColorScheme.fromSwatch(
+                brightness: Brightness.light,
+                primarySwatch: Colors.blue,
+                backgroundColor: Colors.white38,
+                accentColor: Colors.white12,
+                cardColor: Colors.blueGrey.shade50,
+                errorColor: Colors.red,
+              ),
+              primaryTextTheme: const TextTheme(
+                titleLarge: TextStyle(color: Colors.black),
+                bodyMedium: TextStyle(color: Colors.black),
+                bodyLarge: TextStyle(color: Colors.black),
+                titleMedium: TextStyle(color: Colors.blue),
+                titleSmall: TextStyle(color: Colors.black),
+                bodySmall: TextStyle(color: Colors.black),
+                labelLarge: TextStyle(color: Colors.black),
+                labelSmall: TextStyle(color: Colors.black),
+              ),
+              useMaterial3: true,
+            ),
+            darkTheme: ThemeData(
+              //use google font as theme
+              textTheme: GoogleFonts.robotoTextTheme(
+                Theme.of(context).textTheme,
+              ),
+              //use color scheme of material theme
+              colorScheme: ColorScheme.fromSwatch(
+                brightness: Brightness.dark,
+                primarySwatch: Colors.indigo,
+                backgroundColor: Colors.black87,
+                accentColor: Colors.white12,
+                cardColor: Colors.white10,
+                errorColor: Colors.red,
+              ),
+              primaryTextTheme: const TextTheme(
+                titleLarge: TextStyle(color: Colors.white),
+                bodyMedium: TextStyle(color: Colors.white),
+                bodyLarge: TextStyle(color: Colors.white),
+                titleMedium: TextStyle(color: Colors.white),
+                titleSmall: TextStyle(color: Colors.white),
+                bodySmall: TextStyle(color: Colors.white),
+                labelLarge: TextStyle(color: Colors.white),
+                labelSmall: TextStyle(color: Colors.white),
+              ),
+              useMaterial3: true,
+            ),
+            themeMode: state,
+            title: 'Arisan Software',
+            home: const MyHomePage(title: 'Arisan Software'),
+            debugShowCheckedModeBanner: false,
+          );
+        },
+      ),
+    );
   }
 }
 
@@ -104,17 +125,12 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: [
           IconButton(
             onPressed: () {
-            //check if theme is light or dark
-              if (Theme.of(context).brightness == Brightness.light) {
-                BlocProvider.of<PesertaBloc>(context).add(ChangeTheme(true));
-              } else {
-                BlocProvider.of<PesertaBloc>(context).add(ChangeTheme(false));
-              }
+              context.read<ThemeModeCubit>().toggleBrightness();
             },
-            icon: Icon(
-              Theme.of(context).brightness == Brightness.light
-                  ? Icons.dark_mode
-                  : Icons.light_mode,
+            icon: BlocBuilder<ThemeModeCubit, ThemeMode>(
+              builder: (context, state) {
+                return state == ThemeMode.light ? Icon(Icons.light_mode) : Icon(Icons.dark_mode);
+              },
             ),
           ),
         ],
