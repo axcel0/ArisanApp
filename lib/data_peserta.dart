@@ -60,7 +60,7 @@ class _DataPesertaState extends State<DataPeserta> {
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
-                    //set font size of title and subtitle to 16
+                    //set listtile color based on theme brightness
                     title: Text(state.listPeserta[index].namaPeserta,
                         style: TextStyle(
                           fontSize: 18,

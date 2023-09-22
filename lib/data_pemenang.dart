@@ -63,6 +63,8 @@ class _DataPemenangState extends State<DataPemenang> {
               itemBuilder:(context, index) {
                 return Card(
                   child: ListTile(
+                    //set listtile color
+                    tileColor: Theme.of(context).colorScheme.brightness == Brightness.light ? Colors.white10 : Theme.of(context).cardColor,
                     title: Text(state.listPemenang[index].namaPeserta,
                         style: TextStyle(
                           fontSize: 18,
