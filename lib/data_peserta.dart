@@ -2,11 +2,9 @@ import 'dart:convert';
 
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_training/nama_peserta.dart';
 import 'cubit/theme_mode_cubit.dart';
-import 'main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'blocs/peserta_bloc.dart';
 
@@ -125,7 +123,12 @@ class _DataPesertaState extends State<DataPeserta> {
             );
           }else{
             return Center(
-              child: Text("Data Peserta masih kosong", style: TextStyle(color: Theme.of(context).primaryTextTheme.titleMedium!.color)),
+              child: Text("Data Peserta masih kosong",
+
+                  style: TextStyle(
+                      fontSize: 18,
+                      color: Theme.of(context).primaryTextTheme.titleMedium!.color),
+              ),
             );
           }
         },

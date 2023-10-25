@@ -4,7 +4,6 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tugas_akhir_training/data_pemenang.dart';
 import 'package:confetti/confetti.dart';
 import 'blocs/peserta_bloc.dart';
 import 'cubit/theme_mode_cubit.dart';

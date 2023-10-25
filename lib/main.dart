@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_training/blocs/peserta_bloc.dart';
 import 'cubit/theme_mode_cubit.dart';
 import 'data_kocok.dart';
@@ -184,7 +183,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => DataPemenang()));
+                onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const DataPemenang()));
                 },
                 child: Wrap(
                   alignment: WrapAlignment.center,

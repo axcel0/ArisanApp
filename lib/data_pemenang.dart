@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tugas_akhir_training/blocs/peserta_bloc.dart';
 import 'package:tugas_akhir_training/nama_peserta.dart';
@@ -85,8 +84,13 @@ class _DataPemenangState extends State<DataPemenang> {
               }
             );
           }else{
-            return const Center(
-              child: Text("Belum ada pemenang, silahkan kocok terlebih dahulu"),
+            return Center(
+              child: Text("Belum ada pemenang, silahkan kocok terlebih dahulu",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Theme.of(context).colorScheme.brightness == Brightness.light ? Colors.orange : Colors.amber,
+                ),
+                ),
             );
           }
         }),
